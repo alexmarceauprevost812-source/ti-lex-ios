@@ -72,6 +72,25 @@ parted
 
 # Réseau et diagnostic
 network-manager
+network-manager-gnome
+wpasupplicant
+wireless-tools
+iw
+rfkill
+bluez
+bluez-tools
+blueman
+# Firmwares courants pour les ordinateurs portables et adaptateurs USB.
+firmware-linux-free
+firmware-iwlwifi
+firmware-realtek
+firmware-atheros
+firmware-brcm80211
+firmware-misc-nonfree
+firmware-mediatek
+firmware-libertas
+libspa-0.2-bluetooth
+bluez-obexd
 network-manager-openvpn
 openvpn
 wireguard-tools

@@ -3,7 +3,11 @@
 Ouvrir Applications → Système → Terminal TI-LEX Pro, ou les paramètres TI-LEX.
 Le terminal utilise XFCE Terminal et Bash : onglets, copier/coller, recherche,
 polices et préférences sont ceux du vrai terminal Linux.
-La palette noire/orange est fournie pour les nouveaux comptes. Le prompt TI-LEX
+Le terminal a un fond noir, une écriture blanche, des suggestions vert lime et
+une invite, un titre et un curseur orange. Après une commande en échec,
+la prochaine invite affiche `[erreur N]` en rouge, avec son code de sortie.
+Les applications gardent le contrôle des couleurs de leurs propres sorties.
+La palette est fournie pour les nouveaux comptes. Le prompt TI-LEX
 ne s'applique qu'au lanceur dédié et charge d'abord le fichier .bashrc personnel.
 
 Tapez `tilex aide`. Les commandes disponibles sont :

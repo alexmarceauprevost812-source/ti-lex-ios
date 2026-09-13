@@ -13,6 +13,24 @@ xfce4-terminal
 xfce4-screenshooter
 network-manager
 network-manager-gnome
+wpasupplicant
+wireless-tools
+iw
+rfkill
+bluez
+bluez-tools
+blueman
+# Firmwares Wi-Fi/Bluetooth courants.
+firmware-linux-free
+firmware-iwlwifi
+firmware-realtek
+firmware-atheros
+firmware-brcm80211
+firmware-misc-nonfree
+firmware-mediatek
+firmware-libertas
+libspa-0.2-bluetooth
+bluez-obexd
 pipewire-audio
 pavucontrol
 firefox-esr

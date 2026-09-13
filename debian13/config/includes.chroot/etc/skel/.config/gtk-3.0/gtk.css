@@ -6,3 +6,9 @@
 button { border-radius: 10px; }
 button.suggested-action { background-image: none; background-color: #ff8a24; color: #08080b; }
 selection { background-color: #d9680e; color: #ffffff; }
+/* Desktop panels: black surfaces, orange hover, lime keyboard focus. */
+.xfce4-panel { background-color: #101012; color: #ffffff; }
+.xfce4-panel button { background-image: none; background-color: transparent; border: none; padding: 6px; }
+.xfce4-panel button:hover { background-color: #ff8a24; color: #08080b; }
+.xfce4-panel button:focus { outline-color: #b4ff39; outline-style: solid; outline-width: 2px; }
+#XfcePanelWindowWrapper { background-color: #101012; }

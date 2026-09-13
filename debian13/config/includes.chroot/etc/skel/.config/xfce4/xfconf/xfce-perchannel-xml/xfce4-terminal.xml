@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <channel name="xfce4-terminal" version="1.0">
   <property name="font-name" type="string" value="Monospace 12"/>
-  <property name="color-foreground" type="string" value="#f4f4f5"/>
-  <property name="color-background" type="string" value="#08080b"/>
+  <property name="color-foreground" type="string" value="#ffffff"/>
+  <property name="color-background" type="string" value="#000000"/>
   <property name="color-cursor" type="string" value="#ff8a24"/>
   <property name="color-use-theme" type="bool" value="false"/>
-  <property name="color-palette" type="string" value="#111116;#ff6068;#b4ff39;#ffd166;#82aaff;#c792ea;#89ddff;#e4e4e7;#71717a;#ff8c92;#caff80;#ffe19c;#a6c3ff;#ddbbff;#b3efff;#ffffff"/>
+  <property name="color-palette" type="string" value="#000000;#ff4545;#b4ff39;#ff8a24;#82aaff;#c792ea;#89ddff;#ffffff;#71717a;#ff6068;#caff80;#ffa94c;#a6c3ff;#ddbbff;#b3efff;#ffffff"/>
   <property name="scrolling-lines" type="uint" value="10000"/>
   <property name="misc-bell" type="bool" value="false"/>
 </channel>

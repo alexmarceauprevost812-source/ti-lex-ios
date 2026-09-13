@@ -1,8 +1,5 @@
 # TI-LEX settings and native control panels
 gir1.2-gtk-3.0
-blueman
-bluez
-rfkill
 xfce4-settings
 xfce4-power-manager
 xfce4-taskmanager

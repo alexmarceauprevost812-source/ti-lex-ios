@@ -2,7 +2,11 @@
 [ -r "$HOME/.bashrc" ] && . "$HOME/.bashrc"
 case $- in *i*) ;; *) return ;; esac
 if [ -t 1 ] && [ "$TERM" != dumb ]; then
-    PS1='\[\e[38;5;208m\]\u@\h\[\e[0m\] \[\e[38;5;154m\]\w\[\e[0m\]\n\$ '
-    printf '\033[38;5;208m\n  TI-LEX PRO  /  TERMINAL\033[0m\n'
-    printf '  Tapez tilex aide pour découvrir les outils.\n\n'
+    # Report failure without intercepting stderr or changing command execution.
+    __tilex_status() {
+        if [ "$1" -ne 0 ]; then printf '[erreur %s] ' "$1"; fi
+    }
+    PS1='\[\e[31m\]$(__tilex_status "$?")\[\e[33m\]\u@\h:\w \$\[\e[0m\] '
+    printf '\033[33m\n  TI-LEX PRO  /  TERMINAL\033[0m\n'
+    printf '\n  Bienvenue. Essayez \033[32mtilex aide\033[0m, \033[32mtilex systeme\033[0m ou \033[32mclear\033[0m.\n\n'
 fi

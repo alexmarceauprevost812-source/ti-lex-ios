@@ -39,6 +39,34 @@ def move_dock(state):
         pass
 
 
+def offer_shortcuts(state):
+    """Install initial shortcuts once, preserving existing user files."""
+    if state.exists():
+        return
+    try:
+        result = subprocess.run(["xdg-user-dir", "DESKTOP"], capture_output=True,
+                                text=True, timeout=5, check=True)
+        directory = Path(result.stdout.strip())
+        if not result.stdout.strip() or not directory.is_absolute() or not directory.is_dir():
+            return
+        for name in ("thunar.desktop", "ti-lex-terminal.desktop",
+                     "ti-lex-settings.desktop", "ti-lex-open.desktop"):
+            source = Path("/usr/share/applications") / name
+            if not source.is_file():
+                return
+            target = directory / name
+            try:
+                with target.open("x", encoding="utf-8") as stream:
+                    stream.write(source.read_text(encoding="utf-8"))
+                target.chmod(0o755)
+            except FileExistsError:
+                continue
+        state.parent.mkdir(parents=True, exist_ok=True)
+        state.write_text("1\n", encoding="utf-8")
+    except (OSError, subprocess.SubprocessError):
+        pass
+
+
 def offer_installer(state):
     """Copie le lanceur d'installation sur le bureau, en session live seulement.
     Le système installé n'a plus Calamares : rien n'est copié, aucune entrée morte."""
@@ -92,4 +120,5 @@ if __name__ == "__main__":
     state_root = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
     apply_once(state_root / "ti-lex/desktop-v1")
     offer_installer(state_root / "ti-lex/installer-v1")
+    offer_shortcuts(state_root / "ti-lex/shortcuts-v1")
     move_dock(state_root / "ti-lex/dock-v1")
