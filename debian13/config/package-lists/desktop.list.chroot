@@ -8,6 +8,7 @@ locales
 task-xfce-desktop
 lightdm
 lightdm-gtk-greeter
+plymouth
 xfce4-terminal
 xfce4-screenshooter
 network-manager

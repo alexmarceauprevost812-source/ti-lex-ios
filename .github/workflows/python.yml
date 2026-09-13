@@ -21,4 +21,5 @@ jobs:
         with:
           node-version: "22"
       - run: node --check preview/app.js
+      - run: node --check preview/matrix.js
       - run: node preview/build.mjs

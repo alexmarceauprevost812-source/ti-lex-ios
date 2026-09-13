@@ -48,22 +48,26 @@ de paquets de live-build. L'opération télécharge plusieurs Go et nécessite d
 ## Images
 Voir [debian13/BRANDING.md](debian13/BRANDING.md).
 Voir [debian13/TESTS.md](debian13/TESTS.md) avant toute installation réelle.
-L'effet vieille TV animé, les agents IA et le pilote NVIDIA spécifique RTX 5060
-ne sont pas encore intégrés ni validés.
+L'écran de démarrage TI-LEX — mascotte vieille TV sur fond noir, thème Plymouth —
+est intégré et vérifié sous Xvfb par l'intégration continue, jamais sur un
+démarrage réel. Les agents IA et le pilote NVIDIA spécifique RTX 5060 ne sont
+pas intégrés.
 
 ## Bureau, terminal et ouverture simplifiée
-- Deux fonds PNG bureau/connexion et six icônes SVG sont intégrés dans la configuration.
+- Deux fonds PNG bureau/connexion, six icônes SVG et la mascotte CRT sont intégrés.
 - Terminal TI-LEX basé sur XFCE Terminal/Bash, palette dédiée et commande `tilex aide`.
 - Paramètres enrichis : terminal, Python, éditeur, fichiers, archives, sauvegardes et diagnostic.
 - Clic droit Thunar → Ouvrir avec TI-LEX pour ZIP, AppImage, .sh, .py et .deb compatibles.
 - Aucun exécutable téléchargé ne démarre automatiquement.
 - [Guide du terminal](debian13/TERMINAL.md), [guide du lanceur](debian13/OPEN-APPS.md).
 - [Aperçu interactif Vercel](https://ti-lex-pro-preview-alexmarceauprevost812-3889s-projects.vercel.app) :
-  démonstration web du bureau; ne lance pas Linux et ne remplace pas les tests de l'ISO.
+  démonstration web du bureau, pluie TI-LEX animée en fond; ne lance pas Linux
+  et ne remplace pas les tests de l'ISO.
 
-Les tests locaux Python passent. Les vérifications GitHub contrôlent aussi les fichiers
-et l'initialisation GTK dans Debian. Démarrage complet, matériel et installateur
-restent à valider. La disposition de l'aperçu web est illustrative.
+Les tests locaux Python passent. Les vérifications GitHub contrôlent aussi les fichiers,
+l'initialisation GTK et le chargement réel du thème de démarrage dans Debian.
+Démarrage complet, matériel et installateur restent à valider.
+La disposition de l'aperçu web est illustrative.
 
 ## Ancien prototype
 `src/ti_lex_builder`, `config/packages.txt` et `pyproject.toml` sont conservés

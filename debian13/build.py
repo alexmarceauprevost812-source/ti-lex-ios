@@ -24,7 +24,7 @@ def options():
         "--checksums", "sha256", "--image-name", "ti-lex-pro-debian13",
         "--iso-volume", "TI_LEX_PRO_13",
         "--bootappend-live",
-        "boot=live components username=tilex hostname=ti-lex locales=fr_CA.UTF-8 keyboard-layouts=ca timezone=America/Toronto",
+        "boot=live components quiet splash username=tilex hostname=ti-lex locales=fr_CA.UTF-8 keyboard-layouts=ca timezone=America/Toronto",
     ]
 
 def validate():

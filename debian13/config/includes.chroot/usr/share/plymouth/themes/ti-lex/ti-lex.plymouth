@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=TI-LEX Pro
+Description=Démarrage TI-LEX Pro : mascotte CRT, fond noir, barre orange.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/ti-lex
+ScriptFile=/usr/share/plymouth/themes/ti-lex/ti-lex.script
