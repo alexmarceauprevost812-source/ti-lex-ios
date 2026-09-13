@@ -1,8 +1,11 @@
 # Validation avant diffusion
 Aucun des tests de démarrage suivants n'a encore été exécuté.
 
-1. Construire dans une VM Debian 13 amd64 dédiée et conserver build.log.
-2. Vérifier le SHA256 avec sha256sum -c NOM.iso.sha256.
+1. Construire dans une VM Debian 13 amd64 dédiée, ou par le workflow
+   *Construire l'ISO TI-LEX* (onglet Actions), et conserver build.log :
+   l'artéfact `journal-live-build` le contient, même si la construction échoue.
+2. Vérifier le SHA256 avec sha256sum -c NOM.iso.sha256, après extraction du zip
+   d'artéfact le cas échéant.
 3. Démarrer en VM BIOS, puis UEFI. Secure Boot : validation distincte, non garantie.
 4. Vérifier bureau XFCE, clavier canadien, accents, audio, réseau et navigateur.
 5. La session Live est temporaire et privilégiée (sudo permis par Debian Live).
