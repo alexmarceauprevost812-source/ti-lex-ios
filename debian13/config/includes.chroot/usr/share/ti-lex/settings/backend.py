@@ -21,6 +21,7 @@ TOOLS = {
     "Fond du bureau": ("xfdesktop-settings",),
     "Alimentation": ("xfce4-power-manager-settings",),
     "Disques": ("gnome-disks",),
+    "Formater un disque ou une clé USB": ("python3", "/usr/share/ti-lex/format/app.py"),
     "Pare-feu": ("gufw",),
     "Processus": ("xfce4-taskmanager",),
     "Accessibilité": ("xfce4-accessibility-settings",),

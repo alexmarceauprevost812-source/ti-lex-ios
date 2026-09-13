@@ -8,6 +8,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
 from backend import TOOLS, available, wifi_state, bluetooth_state
+from pages import PAGES, search_tools
 # crt.py vit dans le dossier parent, partagé par les fenêtres TI-LEX.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from crt import Tube
@@ -27,6 +28,11 @@ button:disabled label { color: #cccccc; }
 .on { color: #b4ff39; }
 .off { color: #ff6068; }
 .unknown { color: #ffffff; }
+.subtitle { color: #b8b8c2; }
+stackswitcher, stacksidebar { background-color: #111116; }
+stacksidebar row { padding: 9px; }
+stacksidebar row:selected { background-color: #502b13; }
+entry { background-color: #17171c; color: #ffffff; border-radius: 10px; padding: 10px; }
 """
 
 class Settings(Gtk.Window):
@@ -36,7 +42,7 @@ class Settings(Gtk.Window):
             self.set_icon_from_file("/usr/share/ti-lex/branding/settings.svg")
         except GLib.Error:
             self.set_icon_name("preferences-system")
-        self.set_default_size(900, 720)
+        self.set_default_size(1100, 760)
         self.alive = True
         self.busy = False
         self.connect("destroy", self.close)
@@ -48,75 +54,127 @@ class Settings(Gtk.Window):
         header = Gtk.HeaderBar(title="TI-LEX Pro")
         header.set_show_close_button(True)
         self.set_titlebar(header)
-        scroll = Gtk.ScrolledWindow()
-        self.add(scroll)
-        body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16, margin=24)
-        scroll.add(body)
-        title = Gtk.Label(label="Paramètres", xalign=0)
-        title.get_style_context().add_class("title")
-        body.pack_start(title, False, False, 0)
-        legend = Gtk.Label(label="Vert : activé • Rouge : désactivé • Blanc : non défini / indisponible",
-                           xalign=0)
-        legend.set_line_wrap(True)
-        body.pack_start(legend, False, False, 0)
+        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12, margin=16)
+        self.add(root)
+        self.search = Gtk.SearchEntry()
+        self.search.set_placeholder_text("Rechercher un outil ou un paramètre…")
+        self.search.connect("search-changed", self.search_changed)
+        root.pack_start(self.search, False, False, 0)
+        self.stack = Gtk.Stack()
+        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        self.stack.set_hhomogeneous(False)
+        self.stack.set_vhomogeneous(False)
+        navigation = Gtk.StackSidebar()
+        navigation.set_stack(self.stack)
+        navigation_scroll = Gtk.ScrolledWindow()
+        navigation_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        navigation_scroll.set_size_request(245, -1)
+        navigation_scroll.add(navigation)
+        layout = Gtk.Box(spacing=16)
+        layout.pack_start(navigation_scroll, False, False, 0)
+        layout.pack_start(self.stack, True, True, 0)
+        root.pack_start(layout, True, True, 0)
         self.status = {}
-        for name, buttons in [
-            ("Wi-Fi", ["Choisir un réseau Wi-Fi", "Profils réseau / VPN"]),
-            ("Bluetooth", ["Appareils Bluetooth"]),
-            ("Bureau et matériel", ["Son et microphones", "Enregistrer le microphone", "Webcam",
-                "Imprimantes", "Scanner", "Écrans", "Clavier",
-                "Souris et pavé tactile", "Apparence", "Fond du bureau", "Alimentation"]),
-            ("Système", ["Disques", "Pare-feu", "Processus", "Tous les paramètres XFCE",
-                "Matériel détecté", "Températures et capteurs", "Date et heure",
-                "Clés et mots de passe", "Fermer la session / alimentation"]),
-            ("Applications", ["Navigateur Web", "Gestionnaire de paquets",
-                "Mises à jour disponibles", "Applications Flatpak", "Machines virtuelles", "Conteneurs"]),
-            ("Personnalisation", ["Accessibilité", "Notifications", "Gestionnaire de fenêtres",
-                "Réglages du panneau", "Applications au démarrage"]),
-            ("Terminal et développement", ["Terminal TI-LEX", "Préférences du terminal",
-                "Guide des commandes", "Sessions tmux", "Python", "Éditeur de texte"]),
-            ("Fichiers et diagnostic", ["Ouvrir une application", "Fichiers", "Archives", "Sauvegardes",
-                "Espace disque", "Capture d’écran", "Informations système", "Journaux système"]),
-        ]:
-            card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-            card.get_style_context().add_class("card")
-            label = Gtk.Label(label=name, xalign=0)
-            label.get_style_context().add_class("on")
-            card.pack_start(label, False, False, 0)
-            if name in ("Wi-Fi", "Bluetooth"):
+        self.page_before_search = "Accueil"
+        home = self.add_page("Accueil", "Vos outils et paramètres Linux, réunis au même endroit.")
+        home_flow = self.new_flow()
+        home.pack_start(home_flow, False, False, 0)
+        for name, icon, description, buttons in PAGES:
+            card = self.add_page(name, description)
+            shortcut = Gtk.Button(label=name)
+            shortcut.set_image(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.DIALOG))
+            shortcut.set_always_show_image(True)
+            shortcut.connect("clicked", self.open_page, name)
+            home_flow.add(shortcut)
+            state_key = "Wi-Fi" if name == "Wi-Fi et réseau" else name
+            if state_key in ("Wi-Fi", "Bluetooth"):
                 state = Gtk.Label(label="Lecture de l’état…", xalign=0)
                 state.set_line_wrap(True)
                 card.pack_start(state, False, False, 0)
-                self.status[name] = state
-            flow = Gtk.FlowBox()
-            flow.set_selection_mode(Gtk.SelectionMode.NONE)
-            flow.set_max_children_per_line(3)
+                self.status[state_key] = state
+            flow = self.new_flow()
             for text in buttons:
-                command = TOOLS[text]
-                button = Gtk.Button(label=text)
-                icons = {"Wi-Fi": "ti-lex-network", "Bluetooth": "bluetooth",
-                         "Bureau et matériel": "ti-lex-settings", "Système": "ti-lex-system",
-                         "Applications": "system-software-install", "Personnalisation": "ti-lex-settings",
-                         "Terminal et développement": "ti-lex-terminal",
-                         "Fichiers et diagnostic": "ti-lex-files"}
-                button.set_image(Gtk.Image.new_from_icon_name(icons[name], Gtk.IconSize.DIALOG))
-                button.set_always_show_image(True)
-                button.set_sensitive(available(command))
-                button.set_tooltip_text("Ouvrir l’outil système" if available(command)
-                                        else "Outil non installé — indisponible")
-                button.connect("clicked", self.launch, command, text)
-                flow.add(button)
+                flow.add(self.tool_button(text, icon))
             card.pack_start(flow, False, False, 0)
-            body.pack_start(card, False, False, 0)
+        results = self.add_page("Recherche", "Résultats dans toutes les catégories.")
+        self.result_count = Gtk.Label(xalign=0)
+        results.pack_start(self.result_count, False, False, 0)
+        self.results_flow = self.new_flow()
+        results.pack_start(self.results_flow, False, False, 0)
+        self.stack.set_visible_child_name("Accueil")
         refresh = Gtk.Button(label="Actualiser les états")
         refresh.connect("clicked", lambda *_: self.refresh())
-        body.pack_start(refresh, False, False, 0)
+        root.pack_start(refresh, False, False, 0)
         note = Gtk.Label(label="Les réglages s’ouvrent dans les outils système. Les autorisations Linux restent actives.",
                          xalign=0)
         note.set_line_wrap(True)
-        body.pack_start(note, False, False, 0)
+        root.pack_start(note, False, False, 0)
         self.timer = GLib.timeout_add_seconds(10, self.refresh)
         self.refresh()
+
+    def add_page(self, name, description):
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20, margin=12)
+        scroll.add(body)
+        title = Gtk.Label(label=name, xalign=0)
+        title.get_style_context().add_class("title")
+        body.pack_start(title, False, False, 0)
+        subtitle = Gtk.Label(label=description, xalign=0)
+        subtitle.set_line_wrap(True)
+        subtitle.get_style_context().add_class("subtitle")
+        body.pack_start(subtitle, False, False, 0)
+        self.stack.add_titled(scroll, name, name)
+        return body
+
+    @staticmethod
+    def new_flow():
+        flow = Gtk.FlowBox()
+        flow.set_selection_mode(Gtk.SelectionMode.NONE)
+        flow.set_min_children_per_line(1)
+        flow.set_max_children_per_line(2)
+        flow.set_column_spacing(12)
+        flow.set_row_spacing(12)
+        return flow
+
+    def tool_button(self, text, icon):
+        command = TOOLS[text]
+        installed = available(command)
+        button = Gtk.Button()
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8, margin=8)
+        box.pack_start(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.DIALOG), False, False, 0)
+        label = Gtk.Label(label=text)
+        label.set_line_wrap(True)
+        box.pack_start(label, False, False, 0)
+        hint = Gtk.Label(label="Ouvrir" if installed else "Outil non installé")
+        box.pack_start(hint, False, False, 0)
+        button.add(box)
+        button.set_sensitive(installed)
+        button.set_tooltip_text(text if installed else "Cet outil n’est pas installé sur ce système.")
+        button.connect("clicked", self.launch, command, text)
+        return button
+
+    def open_page(self, _button, name):
+        self.search.set_text("")
+        self.page_before_search = name
+        self.stack.set_visible_child_name(name)
+
+    def search_changed(self, entry):
+        query = entry.get_text().strip()
+        if not query:
+            if self.stack.get_visible_child_name() == "Recherche":
+                self.stack.set_visible_child_name(self.page_before_search)
+            return
+        if self.stack.get_visible_child_name() != "Recherche":
+            self.page_before_search = self.stack.get_visible_child_name()
+        for child in self.results_flow.get_children():
+            child.destroy()
+        matches = search_tools(query)
+        self.result_count.set_text(f"{len(matches)} outil(s) trouvé(s)" if matches else "Aucun outil trouvé. Essayez un autre mot.")
+        for _category, icon, tool in matches:
+            self.results_flow.add(self.tool_button(tool, icon))
+        self.results_flow.show_all()
+        self.stack.set_visible_child_name("Recherche")
 
     def power_on(self, *_):
         self.tube.turn_on()

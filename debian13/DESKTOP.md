@@ -6,6 +6,13 @@ Le bouton, Entrée lorsqu'il a le focus, ou Échap ferment cet accueil.
 LightDM continue de gérer l'authentification. L'accueil peut être désactivé
 dans les applications au démarrage XFCE (Bienvenue TI-LEX PRO).
 
+L'accueil, les paramètres et le lanceur TI-LEX s'ouvrent depuis une ligne
+lumineuse et se referment avec un effet de tube cathodique. Une fermeture
+demandée pendant l'ouverture interrompt l'animation puis ferme la fenêtre.
+Cet effet est propre aux fenêtres GTK TI-LEX ; il ne modifie pas les fenêtres
+des applications externes ni le terminal XFCE. Un effet global nécessiterait
+une prise en charge par le compositeur du bureau.
+
 Les nouveaux comptes XFCE reçoivent une barre supérieure noire avec menu
 TI-LEX PRO, fenêtres ouvertes, zone de notification réseau/Bluetooth,
 horloge et actions de session. Un dock vertical à droite ouvre les fichiers,

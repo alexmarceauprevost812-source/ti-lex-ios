@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 """Post-login welcome screen; authentication remains with LightDM."""
 from pathlib import Path
+import sys
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from crt import Tube
 
 BRANDING = Path(__file__).resolve().parent.parent / "branding"
 CSS = """
@@ -26,6 +29,10 @@ class Welcome(Gtk.Window):
         super().__init__(title="Bienvenue — TI-LEX PRO")
         self.set_name("welcome")
         self.set_default_size(1000, 700)
+        self.tube = Tube(self)
+        self.closing = False
+        self.connect("map-event", self.power_on)
+        self.connect("delete-event", self.power_off)
         self.connect("destroy", lambda *_: Gtk.main_quit())
         self.connect("key-press-event", self.on_key)
         self.fullscreen()
@@ -51,15 +58,25 @@ class Welcome(Gtk.Window):
             content.pack_start(label, False, False, 0)
         enter = Gtk.Button(label="Entrer dans le bureau →")
         enter.set_halign(Gtk.Align.CENTER)
-        enter.connect("clicked", lambda *_: self.destroy())
+        enter.connect("clicked", self.power_off)
         content.pack_start(enter, False, False, 12)
         self.enter_button = enter
 
     def on_key(self, _window, event):
         if event.keyval == Gdk.KEY_Escape:
-            self.destroy()
+            self.power_off()
             return True
         return False
+
+    def power_on(self, *_):
+        self.tube.turn_on()
+        return False
+
+    def power_off(self, *_):
+        if not self.closing:
+            self.closing = True
+            self.tube.turn_off(self.destroy)
+        return True
 
 
 if __name__ == "__main__":

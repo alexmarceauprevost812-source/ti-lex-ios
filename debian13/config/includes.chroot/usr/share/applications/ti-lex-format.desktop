@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Formatage TI-LEX PRO
+Comment=Formater un disque ou une clé USB avec l’utilitaire graphique Disques
+Exec=python3 /usr/share/ti-lex/format/app.py
+TryExec=gnome-disks
+Icon=drive-harddisk
+Terminal=false
+Categories=System;Utility;
+Keywords=formatage;disque;USB;partition;

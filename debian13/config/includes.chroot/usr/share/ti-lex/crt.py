@@ -26,6 +26,8 @@ class Tube:
         self.flash = 0.0   # voile blanc du tube
         self.active = False
         self.running = False
+        self.timer = None
+        window.connect("destroy", self.cancel)
         window.connect("draw", self._compress)
         window.connect_after("draw", self._veil)
 
@@ -56,7 +58,7 @@ class Tube:
 
     def _play(self, duration, step, done=None):
         if self.running:
-            return
+            self.cancel()
         self.running = True
         self.active = True
         frames = max(1, int(duration / FRAME))
@@ -70,12 +72,20 @@ class Tube:
                 return True
             self.active = False
             self.running = False
+            self.timer = None
             self.window.queue_draw()
             if done:
                 done()
             return False
 
-        GLib.timeout_add(FRAME, tick)
+        self.timer = GLib.timeout_add(FRAME, tick)
+
+    def cancel(self, *_):
+        if self.timer is not None:
+            GLib.source_remove(self.timer)
+            self.timer = None
+        self.running = False
+        self.active = False
 
     def turn_on(self, duration=420):
         """La ligne s'ouvre vers le haut et le bas, le voile s'efface."""

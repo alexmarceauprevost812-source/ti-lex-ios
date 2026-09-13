@@ -25,6 +25,26 @@ Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), provider, Gtk
 window = settings.Settings()
 window.show_all()
 window.connect("destroy", lambda *_: None)
+from pages import PAGES
+from backend import TOOLS
+listed = [tool for _, _, _, tools in PAGES for tool in tools]
+assert len(listed) == len(set(listed)), "outil présent dans plusieurs pages"
+assert set(listed) == set(TOOLS), "chaque outil doit avoir une page"
+for name, _, _, tools in PAGES:
+    window.open_page(None, name)
+    assert window.stack.get_visible_child_name() == name
+window.search.set_text("bluetooth")
+window.search_changed(window.search)
+assert window.stack.get_visible_child_name() == "Recherche"
+assert len(window.results_flow.get_children()) == 1
+window.search.set_text("zzzintrouvablezzz")
+window.search_changed(window.search)
+assert len(window.results_flow.get_children()) == 0
+assert "Aucun" in window.result_count.get_text()
+window.search.set_text("")
+window.search_changed(window.search)
+assert window.stack.get_visible_child_name() == PAGES[-1][0]
+window.open_page(None, "Accueil")
 launcher = load("launcher_app", ROOT / "launcher")
 with tempfile.TemporaryDirectory() as folder:
     program = Path(folder) / "example.py"
@@ -78,4 +98,9 @@ assert settle(lambda: not tube.active and not tube.running), "l'allumage ne s'es
 closed = []
 tube.turn_off(lambda: closed.append("fermé"), duration=96)
 assert settle(lambda: closed), "l'extinction n'a jamais rappelé la fermeture"
+closed.clear()
+tube.turn_on(duration=420)
+tube.turn_off(lambda: closed.append("fermé"), duration=96)
+assert settle(lambda: closed), "fermeture pendant l'ouverture perdue"
+assert closed == ["fermé"]
 print("Settings and launcher windows initialized; CRT power-on and power-off ran; no application executed.")

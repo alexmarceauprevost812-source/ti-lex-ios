@@ -7,7 +7,7 @@ name: Construire l’image ISO TI-LEX Pro
 on:
   workflow_dispatch:
   push:
-    branches: [ti-lex-ios]
+    branches: [ti-lex-ios, claude/brave-knuth-2vda54]
     paths:
       - "debian13/**"
       - ".github/workflows/iso-build.yml"

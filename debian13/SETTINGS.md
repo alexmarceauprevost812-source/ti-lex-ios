@@ -1,4 +1,18 @@
 # Paramètres TI-LEX Pro
+
+Le centre de contrôle propose un accueil et 13 pages : Wi-Fi et réseau,
+Bluetooth, son et caméra, écrans et périphériques, apparence et bureau,
+applications, fichiers et sauvegardes, disques et stockage, sécurité,
+terminal et développement, virtualisation, système et diagnostic,
+session et installation. La barre latérale et les cartes de l'accueil
+ouvrent ces pages. La recherche parcourt toutes les catégories et ignore
+les accents et la casse ; effacer la recherche revient à la page précédente.
+
+Chaque outil du catalogue possède une page et ouvre une application native.
+Les outils absents restent visibles avec la mention « Outil non installé ».
+Ce catalogue couvre les outils intégrés au projet, pas tous les logiciels
+disponibles dans les dépôts Linux. Les icônes utilisent le thème TI-LEX et
+son thème de repli ; la planche utilisateur reste une référence non découpée.
 Lanceur : menu Applications → Paramètres → Paramètres TI-LEX Pro.
 Commande : python3 /usr/share/ti-lex/settings/app.py (sans sudo).
 
