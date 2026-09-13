@@ -7,6 +7,37 @@ import time
 
 WALLPAPER = "/usr/share/ti-lex/branding/desktop.png"
 INSTALLER = "/usr/share/applications/ti-lex-install.desktop"
+# p=8 : bord droit, centré verticalement, dans l'énumération de position XFCE.
+DOCK_POSITION = "p=8;x=0;y=0"
+
+def move_dock(state):
+    """Colle le dock au bord droit, à la verticale.
+
+    La barre du haut n'est jamais touchée : s'il n'existe qu'un seul panneau,
+    le déplacer priverait l'utilisateur de son menu, donc on ne fait rien.
+    """
+    if state.exists():
+        return
+    try:
+        listing = subprocess.run(["xfconf-query", "-c", "xfce4-panel", "-p", "/panels", "-l"],
+                                 capture_output=True, text=True, timeout=5)
+        if listing.returncode != 0:
+            return
+        panels = sorted({line.strip().split("/")[2] for line in listing.stdout.splitlines()
+                         if line.strip().startswith("/panels/panel-") and len(line.strip().split("/")) > 2})
+        if len(panels) < 2:
+            return
+        dock = panels[-1]
+        for name, kind, value in ((f"/panels/{dock}/mode", "int", "1"),
+                                  (f"/panels/{dock}/position", "string", DOCK_POSITION)):
+            subprocess.run(["xfconf-query", "-c", "xfce4-panel", "-p", name,
+                            "--create", "--type", kind, "--set", value],
+                           check=True, timeout=5)
+        state.parent.mkdir(parents=True, exist_ok=True)
+        state.write_text("1\n", encoding="utf-8")
+    except (OSError, subprocess.SubprocessError):
+        pass
+
 
 def offer_installer(state):
     """Copie le lanceur d'installation sur le bureau, en session live seulement.
@@ -61,3 +92,4 @@ if __name__ == "__main__":
     state_root = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
     apply_once(state_root / "ti-lex/desktop-v1")
     offer_installer(state_root / "ti-lex/installer-v1")
+    move_dock(state_root / "ti-lex/dock-v1")

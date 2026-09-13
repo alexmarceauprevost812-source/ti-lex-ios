@@ -61,6 +61,9 @@ affichée par le résumé de la construction.
 - Installation interactive : choix du disque et création du compte par l'utilisateur.
 - Aucun serveur SSH, mot de passe personnel ou clé API préinstallé.
 
+## Résumé court
+[LIRE-MOI.txt](LIRE-MOI.txt) résume le projet en une page, sans jargon.
+
 ## Installer
 Session live → **Installer TI-LEX Pro** (bureau, menu Système, ou Paramètres TI-LEX) :
 assistant Calamares en français du Canada, clavier canadien, fuseau America/Montreal,

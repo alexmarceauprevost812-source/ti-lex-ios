@@ -172,3 +172,44 @@ class IconTests(unittest.TestCase):
         self.assertIn("Inherits=Adwaita", index)
         self.assertIn("scalable/mimetypes", index)
 
+
+class DockTests(unittest.TestCase):
+    """Le dock passe à droite, mais jamais au prix de la barre du haut."""
+
+    def run_with(self, panels):
+        calls = []
+
+        def fake(command, **kwargs):
+            calls.append(command)
+            if command[-1] == "-l":
+                listing = "\n".join(f"/panels/{name}/mode" for name in panels)
+                return subprocess.CompletedProcess(command, 0, listing, "")
+            return subprocess.CompletedProcess(command, 0, "", "")
+
+        with tempfile.TemporaryDirectory() as folder:
+            state = Path(folder) / "dock-v1"
+            with patch.object(desktop.subprocess, "run", side_effect=fake):
+                desktop.move_dock(state)
+            return calls, state.exists()
+
+    def test_single_panel_is_left_alone(self):
+        calls, marked = self.run_with(["panel-1"])
+        self.assertEqual(1, len(calls))
+        self.assertFalse(marked)
+
+    def test_last_panel_moves_to_the_right_edge(self):
+        calls, marked = self.run_with(["panel-1", "panel-2"])
+        written = [c for c in calls if "--set" in c]
+        self.assertEqual(2, len(written))
+        self.assertIn("/panels/panel-2/mode", written[0])
+        self.assertIn(desktop.DOCK_POSITION, written[1])
+        self.assertTrue(marked)
+
+    def test_nothing_happens_twice(self):
+        with tempfile.TemporaryDirectory() as folder:
+            state = Path(folder) / "dock-v1"
+            state.write_text("1\n")
+            with patch.object(desktop.subprocess, "run") as run:
+                desktop.move_dock(state)
+            run.assert_not_called()
+

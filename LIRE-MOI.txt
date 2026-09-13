@@ -1,0 +1,33 @@
+TI-LEX PRO — bureau, terminal et ouverture simplifiée
+
+Dépôt : https://github.com/alexmarceauprevost812-source/ti-lex-ios/tree/ti-lex-ios
+Aperçu Vercel : https://ti-lex-pro-preview-alexmarceauprevost812-3889s-projects.vercel.app
+Le lien Vercel demande une connexion au compte autorisé.
+
+Pour regarder sans connexion Vercel, lancer « node preview/build.mjs » depuis la
+racine du dépôt, puis ouvrir public/index.html. L'aperçu contient une simulation
+du terminal et d'une ouverture de ZIP. Il n'exécute aucun programme Linux et ne
+modifie aucun réglage de l'ordinateur.
+
+Les sources Debian contiennent :
+- fonds bureau/connexion PNG, sept icônes SVG dont la mascotte;
+- 49 icônes vectorielles de types de fichiers et d'outils, thème /usr/share/icons/TI-LEX;
+- écran de démarrage Plymouth à la mascotte, et fenêtres qui s'allument et
+  s'éteignent comme un tube cathodique;
+- terminal XFCE/Bash TI-LEX et commande tilex;
+- 44 réglages dans un seul panneau, et les listes de logiciels de l'image;
+- ouverture de ZIP, AppImage, scripts et paquets Debian via un clic droit;
+- Flatpak avec Flathub, Snap, Podman, QEMU/KVM, récupération de disques.
+
+L'ISO est produite par l'intégration continue : environ 3,35 Gio, construite en
+moins de vingt minutes, avec son empreinte SHA256. Onglet Actions du dépôt,
+« Construire l'image ISO TI-LEX Pro ».
+
+ELLE N'A JAMAIS ÉTÉ DÉMARRÉE. Ni le démarrage, ni l'installateur, ni le matériel
+n'ont été éprouvés. Lire le README et debian13/TESTS.md avant de construire et de
+tester le système dans une machine virtuelle, sur un disque virtuel vide, avant
+toute installation réelle. La compatibilité des applications téléchargées dépend
+de leurs dépendances.
+
+Les fonds ont été créés avec l'outil de génération d'images intégré.
+Prompts complets : debian13/IMAGE-PROMPTS.md.

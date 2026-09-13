@@ -7,6 +7,10 @@ Les fichiers sont intégrés sous /usr/share/ti-lex/branding dans la future imag
   six éléments vectoriels cohérents et redimensionnables.
 - mascot.svg et mascot.png : téléviseur CRT souriant, source vectorielle et rendu
   512 x 512 utilisé par l'écran de démarrage.
+- file-tools.png : planche de référence 1234 x 1274 des 49 types de fichiers et
+  outils, d'où sont tirées les tuiles vectorielles du thème d'icônes. Le système
+  n'utilise pas cette image : elle documente l'intention, les icônes servies étant
+  les SVG, nets à toute taille.
 
 Le hook LightDM choisit login.png et l'avatar. Le script de première session XFCE
 applique desktop.png aux propriétés d'écran présentes, puis conserve un marqueur
