@@ -1,0 +1,82 @@
+name: Construire l'ISO TI-LEX
+
+# L'ISO se construit sur un exécuteur GitHub, dans un conteneur Debian 13
+# privilégié : live-build exige la racine, des montages et plusieurs Go de
+# téléchargement depuis les dépôts Debian.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/brave-knuth-2vda54]
+
+permissions:
+  contents: read
+
+jobs:
+  iso:
+    name: ISO Debian 13 amd64
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validation hors ligne de la configuration
+        run: python3 debian13/build.py --check
+
+      - name: Préparer le disque de travail
+        run: |
+          df -h / /mnt
+          sudo mkdir -p /mnt/ti-lex-work
+          sudo chmod 1777 /mnt/ti-lex-work
+
+      # Le dépôt est monté en lecture seule : la construction n'écrit que dans
+      # /var/tmp, redirigé vers le disque éphémère /mnt, seul volume assez grand.
+      - name: Construire l'ISO dans un conteneur Debian 13
+        run: |
+          docker run --rm --privileged \
+            -v "$PWD:/src:ro" \
+            -v /mnt/ti-lex-work:/var/tmp \
+            -w /src \
+            debian:13 \
+            bash -euxo pipefail -c '
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update
+              apt-get install -y --no-install-recommends \
+                python3 live-build debootstrap squashfs-tools xorriso \
+                isolinux syslinux-common grub-pc-bin grub-efi-amd64-bin \
+                mtools dosfstools ca-certificates
+              python3 debian13/build.py --build
+            '
+
+      - name: Rassembler l'image et son empreinte
+        run: |
+          set -eu
+          iso=$(ls /mnt/ti-lex-work/ti-lex-build-*/*.iso | head -n1)
+          mkdir -p image
+          sudo cp "$iso" "$iso.sha256" image/
+          sudo chown -R "$(id -u):$(id -g)" image
+          ls -lh image
+          cat image/*.iso.sha256
+
+      - name: Publier l'ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: ti-lex-pro-debian13-iso
+          path: image/
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Publier le journal de live-build
+        if: always()
+        run: |
+          mkdir -p journal
+          sudo cp /mnt/ti-lex-work/ti-lex-build-*/build.log journal/ 2>/dev/null || true
+          sudo chown -R "$(id -u):$(id -g)" journal
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: journal-live-build
+          path: journal/
+          retention-days: 14
+          if-no-files-found: warn
