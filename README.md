@@ -36,6 +36,22 @@ Le script crée un dossier neuf dans `/var/tmp/ti-lex-build-*`, sans nettoyage a
 Il affiche le chemin de l'ISO et de son SHA256. Conserver les journaux et les listes
 de paquets de live-build. L'opération télécharge plusieurs Go et nécessite du temps.
 
+## Pouvoirs du système
+Des capacités, pas un catalogue d'applications : chaque paquet rend le système
+capable d'une classe de choses, et rien ne double ce qui est déjà présent.
+- Tous les formats d'applications Linux : Flatpak avec Flathub, Snap, AppImage,
+  paquets Debian, portails XDG pour les applications confinées.
+- Compilation et langages : chaîne C/C++, CMake, Meson, Ninja, Node, Rust,
+  Python de développement, pipx, débogage avec gdb et valgrind.
+- Conteneurs et virtualisation : Podman sans démon ni racine, Buildah, Skopeo,
+  QEMU/KVM, libvirt et virt-manager, micrologiciel UEFI pour les machines virtuelles.
+  Le compte Live appartient aux groupes libvirt et kvm, sans quoi rien ne démarrerait.
+- Disques et récupération : TestDisk et PhotoRec, ddrescue, LUKS, exFAT, NTFS,
+  Btrfs, F2FS, NVMe, SMART, et memtest86+ depuis le menu de démarrage.
+
+Ces paquets alourdissent l'image de plusieurs gigaoctets. La taille réelle est
+affichée par le résumé de la construction.
+
 ## Contenu
 - Linux amd64, Debian Live, démarrage BIOS/UEFI configuré.
 - XFCE, LightDM GTK, thème sombre provisoire.

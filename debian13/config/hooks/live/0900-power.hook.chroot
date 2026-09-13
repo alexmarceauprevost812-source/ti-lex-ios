@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+# These paths are inside the live-build chroot, never on the user's host.
+
+# Sans dépôt, Flatpak ne sert à rien. Un échec réseau ici n'arrête pas la
+# construction : le dépôt reste ajoutable après installation.
+if command -v flatpak >/dev/null 2>&1; then
+    flatpak remote-add --if-not-exists flathub \
+        https://dl.flathub.org/repo/flathub.flatpakrepo \
+        || echo "Flathub non ajouté ; « flatpak remote-add flathub » le fera plus tard."
+fi
+
+test -x /usr/bin/flatpak
+test -x /usr/bin/podman
+test -x /usr/bin/virt-manager
+test -x /usr/bin/testdisk
+
+# Les groupes doivent exister avant que live-config n'y inscrive le compte Live,
+# sinon virt-manager et KVM restent inutilisables dans la session.
+getent group libvirt >/dev/null
+getent group kvm >/dev/null
