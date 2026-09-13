@@ -1,0 +1,17 @@
+# Logiciels initiaux TI-LEX
+python3
+python3-venv
+python3-pip
+git
+curl
+wget
+rsync
+openssh-client
+build-essential
+btop
+htop
+tmux
+gnome-tweaks
+ufw
+apparmor-utils
+flatpak
