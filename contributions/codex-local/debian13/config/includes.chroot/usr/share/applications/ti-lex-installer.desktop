@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Installer TI-LEX Pro
+Comment=Installer TI-LEX Pro avec assistant graphique
+Exec=pkexec calamares
+Icon=system-software-install
+Terminal=false
+Categories=System;Settings;

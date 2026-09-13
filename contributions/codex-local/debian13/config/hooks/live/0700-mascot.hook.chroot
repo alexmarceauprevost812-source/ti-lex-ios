@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+chmod 0755 /usr/local/bin/ti-lex-greeter
+install -m 0644 /usr/share/ti-lex/branding/mascot.png /usr/share/plymouth/themes/ti-lex/mascot.png
+plymouth-set-default-theme ti-lex
+update-initramfs -u -k all

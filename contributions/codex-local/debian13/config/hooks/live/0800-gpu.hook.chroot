@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+install -d -m 0755 /usr/local/bin /etc/ti-lex
+cat > /usr/local/bin/ti-lex-gpu-info <<'EOF'
+#!/bin/sh
+set -eu
+if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi -L >/dev/null 2>&1; then
+  echo "NVIDIA détectée :"
+  nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader
+else
+  echo "GPU intégré ou pilote libre actif"
+  lspci | grep -Ei 'vga|3d|display' || true
+fi
+EOF
+chmod 0755 /usr/local/bin/ti-lex-gpu-info
+cat > /etc/ti-lex/gpu.conf <<'EOF'
+# TI-LEX GPU : nvidia-driver est installé pour les GeForce RTX 5060.
+# Le noyau et Mesa restent disponibles comme solution de secours pour un GPU intégré.
+EOF

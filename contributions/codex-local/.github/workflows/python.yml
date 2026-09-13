@@ -1,0 +1,25 @@
+name: Vérification Python
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m compileall -q src
+      - run: python -m pip install .
+      - run: ti-lex-build --help
+      - run: python -m compileall -q debian13
+      - run: python debian13/build.py --check
+      - run: python -m unittest discover -s debian13/tests -v
+      - run: bash -n debian13/config/includes.chroot/usr/local/bin/ti-lex-terminal debian13/config/includes.chroot/usr/local/bin/ti-lex-open debian13/config/includes.chroot/usr/share/ti-lex/terminal/bashrc
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --check preview/app.js
+      - run: node --check preview/matrix.js
+      - run: node preview/build.mjs

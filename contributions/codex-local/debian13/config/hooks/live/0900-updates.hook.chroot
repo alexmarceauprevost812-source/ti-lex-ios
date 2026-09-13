@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+chmod 0755 /usr/local/sbin/ti-lex-update
+chmod 0755 /usr/local/bin/ti-lex-disks
+systemctl enable ti-lex-update.timer
+cat > /etc/default/locale <<'EOF'
+LANG=fr_CA.UTF-8
+LANGUAGE=fr_CA:fr
+LC_ALL=fr_CA.UTF-8
+EOF
+echo 'America/Toronto' > /etc/timezone
+ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime

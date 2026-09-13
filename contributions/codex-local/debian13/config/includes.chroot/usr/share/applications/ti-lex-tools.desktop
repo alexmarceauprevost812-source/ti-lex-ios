@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Outils TI-LEX Pro
+Comment=Guide des commandes et des outils Linux
+Exec=xfce4-terminal --disable-server --hold --title=Outils-TI-LEX --execute tilex aide
+Icon=/usr/share/ti-lex/branding/tools.svg
+Terminal=false
+Categories=System;Utility;

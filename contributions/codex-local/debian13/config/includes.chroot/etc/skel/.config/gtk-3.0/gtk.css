@@ -1,0 +1,8 @@
+/* TI-LEX accents on top of Adwaita-dark. */
+@define-color theme_selected_bg_color #d9680e;
+@define-color theme_selected_fg_color #ffffff;
+@define-color selected_bg_color #d9680e;
+@define-color selected_fg_color #ffffff;
+button { border-radius: 10px; }
+button.suggested-action { background-image: none; background-color: #ff8a24; color: #08080b; }
+selection { background-color: #d9680e; color: #ffffff; }

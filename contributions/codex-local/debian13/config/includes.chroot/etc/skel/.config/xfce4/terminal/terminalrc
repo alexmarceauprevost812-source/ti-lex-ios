@@ -1,0 +1,12 @@
+[Configuration]
+FontName=Monospace 12
+ColorForeground=#f4f4f5
+ColorBackground=#08080b
+ColorCursor=#ff8a24
+ColorPalette=#111116;#ff6068;#b4ff39;#ffd166;#82aaff;#c792ea;#89ddff;#e4e4e7;#71717a;#ff8c92;#caff80;#ffe19c;#a6c3ff;#ddbbff;#b3efff;#ffffff
+ColorUseTheme=FALSE
+ScrollingLines=10000
+MiscBell=FALSE
+MiscConfirmClose=TRUE
+MiscMenubarDefault=TRUE
+BackgroundMode=TERMINAL_BACKGROUND_SOLID

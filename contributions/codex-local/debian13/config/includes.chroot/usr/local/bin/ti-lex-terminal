@@ -1,0 +1,2 @@
+#!/bin/sh
+exec xfce4-terminal --disable-server --title="Terminal TI-LEX Pro" --icon=/usr/share/ti-lex/branding/terminal.svg --geometry=110x30 --execute bash --rcfile /usr/share/ti-lex/terminal/bashrc -i "$@"

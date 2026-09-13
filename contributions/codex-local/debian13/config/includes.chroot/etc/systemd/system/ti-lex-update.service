@@ -1,0 +1,8 @@
+[Unit]
+Description=Mise à jour TI-LEX Pro et Debian
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/ti-lex-update

@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=TI-LEX Matrix
+Description=Mascotte TI-LEX et pluie numérique
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/ti-lex
+ScriptFile=/usr/share/plymouth/themes/ti-lex/ti-lex.script

@@ -1,0 +1,61 @@
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+width = Window.GetWidth();
+height = Window.GetHeight();
+mascot_image = Image("mascot.png");
+size = height * 0.36;
+if (size > 240) size = 240;
+mascot_image = mascot_image.Scale(size, size);
+mascot = Sprite(mascot_image);
+mascot.SetPosition((width-size)/2, height*0.28, 20);
+title_image = Image.Text("TI-LEX PRO", 1, 0.54, 0.14);
+title = Sprite(title_image);
+title.SetPosition((width-title_image.GetWidth())/2, height*0.72, 20);
+rain_image = Image.Text("0\n1\n0\n1\nT\nI\n0\n1\nL\nE\nX\n1", 0.08, 0.7, 0.28);
+for (i=0; i<32; i++) {
+    rain[i].sprite = Sprite(rain_image);
+    rain[i].x = width*i/32;
+    rain[i].y = -i*27;
+    rain[i].speed = 1.1 + i/32;
+    rain[i].sprite.SetPosition(rain[i].x, rain[i].y, 0);
+    if (rain[i].x > width*0.34 && rain[i].x < width*0.66)
+        rain[i].sprite.SetOpacity(0);
+    else
+        rain[i].sprite.SetOpacity(0.55);
+}
+prompt_mode = 0;
+fun refresh() {
+    for (i=0; i<32; i++) {
+        global.rain[i].y += global.rain[i].speed;
+        if (global.rain[i].y > global.height)
+            global.rain[i].y = -global.rain_image.GetHeight();
+        global.rain[i].sprite.SetY(global.rain[i].y);
+    }
+}
+Plymouth.SetRefreshFunction(refresh);
+fun show_prompt(prompt, value) {
+    global.prompt_mode = 1;
+    global.prompt_image = Image.Text(prompt + "\n" + value, 1, 1, 1);
+    global.prompt_sprite = Sprite(global.prompt_image);
+    global.prompt_sprite.SetPosition((Window.GetWidth()-global.prompt_image.GetWidth())/2,
+                                    Window.GetHeight()*0.82, 100);
+}
+fun password(prompt, count) {
+    masked = "";
+    for (i=0; i<count; i++) masked += "*";
+    show_prompt(prompt, masked);
+}
+fun normal() {
+    if (global.prompt_mode) global.prompt_sprite.SetOpacity(0);
+    global.prompt_mode = 0;
+}
+fun message(text) {
+    global.message_image = Image.Text(text, 0.8, 0.8, 0.8);
+    global.message_sprite = Sprite(global.message_image);
+    global.message_sprite.SetPosition((Window.GetWidth()-global.message_image.GetWidth())/2,
+                                     Window.GetHeight()*0.92, 100);
+}
+Plymouth.SetDisplayPasswordFunction(password);
+Plymouth.SetDisplayQuestionFunction(show_prompt);
+Plymouth.SetDisplayNormalFunction(normal);
+Plymouth.SetMessageFunction(message);

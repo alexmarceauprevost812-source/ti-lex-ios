@@ -1,0 +1,62 @@
+#!/usr/bin/python3
+"""Native tool launcher: argv only, no shell or implicit privilege changes."""
+import argparse
+import shutil
+import subprocess
+import sys
+
+COMMANDS = {
+    "systeme": ("uname", "-a"),
+    "processus": ("htop",),
+    "reseau": ("nmcli", "device", "status"),
+    "wifi": ("nmtui-connect",),
+    "disques": ("lsblk", "-o", "NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS"),
+    "memoire": ("free", "-h"),
+    "services": ("systemctl", "--failed", "--no-pager"),
+    "journaux": ("journalctl", "-b", "-p", "warning", "--no-pager", "-n", "80"),
+    "sessions": ("tmux", "new-session", "-A", "-s", "ti-lex"),
+    "python": ("python3",),
+    "editeur": ("nano",),
+    "parametres": ("python3", "/usr/share/ti-lex/settings/app.py"),
+    "terminal": ("ti-lex-terminal",),
+    "sauvegarde": ("deja-dup",),
+}
+DESCRIPTIONS = {
+    "systeme": "Version du noyau et architecture",
+    "processus": "Surveiller les processus avec htop",
+    "reseau": "Afficher les interfaces réseau",
+    "wifi": "Choisir une connexion Wi-Fi",
+    "disques": "Lister les disques sans les modifier",
+    "memoire": "Consulter la mémoire disponible",
+    "services": "Afficher les services en échec",
+    "journaux": "Lire les avertissements du démarrage (selon vos droits)",
+    "sessions": "Retrouver une session de terminal tmux",
+    "python": "Ouvrir Python",
+    "editeur": "Ouvrir Nano",
+    "parametres": "Ouvrir les paramètres TI-LEX",
+    "terminal": "Ouvrir le terminal TI-LEX",
+    "sauvegarde": "Configurer une sauvegarde avec Déjà Dup",
+}
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("outil", nargs="?", default="aide", choices=["aide", *COMMANDS])
+    args = parser.parse_args(argv)
+    if args.outil == "aide":
+        print("TI-LEX Pro — outils du terminal\n")
+        for key in COMMANDS:
+            print(f"  tilex {key:12} {DESCRIPTIONS[key]}")
+        print("\nAutres commandes : git, rg, jq, curl, rsync, ssh, python3 -m venv .venv")
+        return 0
+    command = COMMANDS[args.outil]
+    if shutil.which(command[0]) is None:
+        print(f"Outil non installé : {command[0]}", file=sys.stderr)
+        return 127
+    try:
+        return subprocess.run(command, check=False).returncode
+    except OSError as exc:
+        print(f"Impossible de démarrer : {exc}", file=sys.stderr)
+        return 1
+    except KeyboardInterrupt:
+        return 130
+if __name__ == "__main__":
+    sys.exit(main())

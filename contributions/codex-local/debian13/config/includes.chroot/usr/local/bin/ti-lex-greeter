@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+"""Run the distribution greeter with an optional, independent visual companion."""
+import os
+import signal
+import subprocess
+import sys
+
+def main():
+    children = []
+    def stop(signum, frame):
+        for child in children:
+            if child.poll() is None:
+                child.terminate()
+    signal.signal(signal.SIGTERM, stop)
+    signal.signal(signal.SIGINT, stop)
+    try:
+        # Preserve LightDM's inherited IPC descriptors for the stock greeter.
+        greeter = subprocess.Popen(["/usr/sbin/lightdm-gtk-greeter", *sys.argv[1:]], close_fds=False)
+        children.append(greeter)
+        try:
+            env = {key: value for key, value in os.environ.items()
+                   if not key.startswith("LIGHTDM_")}
+            decoration = subprocess.Popen(
+                ["python3", "/usr/share/ti-lex/greeter/decor.py"],
+                env=env, close_fds=True, stdin=subprocess.DEVNULL)
+            children.append(decoration)
+        except OSError:
+            pass  # Decorative failure never prevents account authentication.
+        return greeter.wait()
+    finally:
+        stop(None, None)
+        for child in children:
+            try:
+                child.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                child.kill()
+                child.wait()
+if __name__ == "__main__":
+    sys.exit(main())

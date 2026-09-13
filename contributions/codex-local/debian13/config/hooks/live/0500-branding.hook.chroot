@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+# These paths are inside the live-build chroot, never on the user's host.
+branding=/usr/share/ti-lex/branding
+greeter=/etc/lightdm/lightdm-gtk-greeter.conf
+if [ -f "$branding/mascot.png" ]; then
+    sed -i 's|^background=.*|background=#000000|' "$greeter"
+elif [ -f "$branding/login.png" ]; then
+    sed -i 's|^background=.*|background=/usr/share/ti-lex/branding/login.png|' "$greeter"
+fi
+if [ -f "$branding/avatar.png" ]; then
+    printf '\ndefault-user-image=/usr/share/ti-lex/branding/avatar.png\n' >> "$greeter"
+elif [ -f "$branding/avatar.svg" ]; then
+    printf '\ndefault-user-image=/usr/share/ti-lex/branding/avatar.svg\n' >> "$greeter"
+fi
+# Retain Debian os-release for package and installer compatibility.
+test -x /usr/sbin/lightdm
+test -x /usr/sbin/lightdm-gtk-greeter
+test -f /etc/ti-lex-release

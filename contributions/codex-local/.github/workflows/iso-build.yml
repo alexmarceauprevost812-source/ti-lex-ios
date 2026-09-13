@@ -1,0 +1,41 @@
+name: Construire l’image ISO TI-LEX Pro
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ti-lex-ios]
+    paths:
+      - "debian13/**"
+      - ".github/workflows/iso-build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    container: debian:13
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer live-build et les outils ISO
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            live-build debootstrap xorriso squashfs-tools isolinux syslinux-common \
+            grub-pc-bin grub-efi-amd64-bin grub-efi-amd64-signed shim-signed \
+            dosfstools mtools ca-certificates python3
+      - name: Valider la configuration
+        run: python3 debian13/build.py --check
+      - name: Construire l’ISO hybride
+        run: python3 debian13/build.py --build
+      - name: Publier l’ISO et les sommes SHA-256
+        uses: actions/upload-artifact@v4
+        with:
+          name: ti-lex-pro-debian13-iso
+          path: |
+            /var/tmp/ti-lex-build-*/*.iso
+            /var/tmp/ti-lex-build-*/*.iso.sha256
+          if-no-files-found: error
+          retention-days: 14

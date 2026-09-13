@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Formater un disque
+Comment=Formater une clé USB ou un disque avec une interface graphique
+Exec=/usr/local/bin/ti-lex-disks
+Icon=drive-harddisk
+Terminal=false
+Categories=System;Settings;

@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=TI-LEX Matrix
+Comment=LightDM GTK avec décoration TI-LEX
+Exec=/usr/local/bin/ti-lex-greeter
+Type=Application

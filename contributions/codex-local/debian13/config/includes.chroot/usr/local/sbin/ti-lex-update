@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+if [ "$(id -u)" -ne 0 ]; then exec sudo "$0" "$@"; fi
+echo "TI-LEX Pro — recherche des mises à jour"
+apt-get update
+apt-get upgrade -y
+apt-get autoremove -y
+echo "Mise à jour terminée."

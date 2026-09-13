@@ -1,0 +1,23 @@
+# TI-LEX settings and native control panels
+gir1.2-gtk-3.0
+blueman
+bluez
+rfkill
+xfce4-settings
+xfce4-power-manager
+xfce4-taskmanager
+gnome-disk-utility
+gufw
+cheese
+gnome-sound-recorder
+system-config-printer
+simple-scan
+cups
+calamares
+gnome-control-center
+accountsservice
+policykit-1
+gnome-system-tools
+ibus
+onboard
+flatpak
