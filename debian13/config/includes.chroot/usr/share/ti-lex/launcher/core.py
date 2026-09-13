@@ -1,5 +1,6 @@
 """Extract ZIPs into private app directories; never run during extraction."""
 from pathlib import Path, PurePosixPath
+import json
 import os
 import shutil
 import stat
@@ -9,6 +10,19 @@ import zipfile
 
 LIMIT = 2 * 1024**3
 MAX_FILES = 20000
+FILETYPES = "/usr/share/ti-lex/filetypes.json"
+
+def icon_file(path, table=FILETYPES):
+    """Icône SVG du type de fichier, d'après l'extension. None si rien ne convient :
+    l'appelant affiche alors la ligne sans image plutôt que d'échouer."""
+    try:
+        data = json.loads(Path(table).read_text(encoding="utf-8"))
+        name = data["extensions"].get(Path(path).suffix.lower(), data["fallback"])
+        icon = Path(data["mimetypes"]) / f"{name}.svg"
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    return icon if icon.is_file() else None
+
 def extract_archive(source, destination):
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True, mode=0o700)

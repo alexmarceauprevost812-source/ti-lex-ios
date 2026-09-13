@@ -1,0 +1,19 @@
+[Icon Theme]
+Name=TI-LEX
+Comment=Types de fichiers et outils TI-LEX Pro
+Inherits=Adwaita,hicolor
+Directories=scalable/mimetypes,scalable/apps
+
+[scalable/mimetypes]
+Size=48
+MinSize=16
+MaxSize=512
+Context=MimeTypes
+Type=Scalable
+
+[scalable/apps]
+Size=48
+MinSize=16
+MaxSize=512
+Context=Applications
+Type=Scalable

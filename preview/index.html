@@ -3,6 +3,7 @@
 <body>
 <div class="preview-notice"><span class="signal"></span> APERÇU INTERACTIF <span class="notice-detail">Interface de démonstration · aucun système Linux exécuté dans le navigateur</span><a href="https://github.com/alexmarceauprevost812-source/ti-lex-ios/tree/ti-lex-ios" target="_blank" rel="noopener">Voir le projet ↗</a></div>
 <main id="desktop">
+<canvas id="matrix" aria-hidden="true"></canvas>
 <header class="panel"><button class="brand" data-open="home"><img src="assets/logo.svg" alt=""> TI-LEX <b>PRO</b></button><span class="panel-title">Votre espace. Vos outils.</span><div class="panel-right"><span>FR</span><span aria-label="Réseau de démonstration">◉</span><span>◖))</span><time id="clock"></time><button id="lock" aria-label="Voir l’écran de connexion">⏻</button></div></header>
 <nav class="desktop-icons" aria-label="Applications du bureau">
 <button data-open="files"><img src="assets/folder.svg" alt=""><span>Mes fichiers</span></button>
@@ -17,4 +18,4 @@
 </main>
 <dialog id="message"><form method="dialog"><p class="eyebrow">TI-LEX PRO</p><h2 id="message-title"></h2><p id="message-body"></p><button class="primary">Compris</button></form></dialog>
 <div id="login" hidden><div class="login-card"><img src="assets/avatar.svg" alt=""><p class="eyebrow">BIENVENUE CHEZ VOUS</p><h2>TI-LEX Pro</h2><p>Écran de connexion · aperçu</p><button class="primary" id="unlock">Entrer dans le bureau →</button></div></div>
-<script src="app.js"></script></body></html>
+<script src="app.js"></script><script src="matrix.js"></script></body></html>

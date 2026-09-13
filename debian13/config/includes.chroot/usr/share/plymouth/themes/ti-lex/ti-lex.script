@@ -1,0 +1,127 @@
+# Écran de démarrage TI-LEX Pro.
+# Le langage de script Plymouth ne trace aucune forme et n'a pas de police
+# garantie dans l'initramfs : les barres sont des images unies de 8 pixels
+# mises à l'échelle, et rien n'est écrit en toutes lettres.
+
+Window.SetBackgroundTopColor(0.031, 0.031, 0.043);
+Window.SetBackgroundBottomColor(0.031, 0.031, 0.043);
+
+screen.width = Window.GetWidth(0);
+screen.height = Window.GetHeight(0);
+
+bar.width = screen.width / 4;
+if (bar.width < 160) bar.width = 160;
+bar.height = 6;
+bar.x = screen.width / 2 - bar.width / 2;
+bar.y = screen.height / 2 + screen.height / 6;
+
+# Mascotte : un tiers de la hauteur d'écran, proportions conservées.
+mascot.image = Image("mascot.png");
+if (mascot.image) {
+    mascot.height = screen.height / 3;
+    mascot.width = mascot.image.GetWidth() * mascot.height / mascot.image.GetHeight();
+    mascot.sprite = Sprite(mascot.image.Scale(mascot.width, mascot.height));
+    mascot.sprite.SetX(screen.width / 2 - mascot.width / 2);
+    mascot.sprite.SetY(bar.y - mascot.height - screen.height / 12);
+    mascot.sprite.SetZ(1);
+}
+
+track.image = Image("track.png");
+if (track.image) {
+    track.sprite = Sprite(track.image.Scale(bar.width, bar.height));
+    track.sprite.SetX(bar.x);
+    track.sprite.SetY(bar.y);
+    track.sprite.SetZ(2);
+}
+
+fill.image = Image("bar.png");
+if (fill.image) {
+    fill.sprite = Sprite(fill.image.Scale(2, bar.height));
+    fill.sprite.SetX(bar.x);
+    fill.sprite.SetY(bar.y);
+    fill.sprite.SetZ(3);
+}
+
+# Puces saisies quand un disque chiffré demande sa phrase secrète.
+# Elles sont créées une fois pour toutes : le script n'alloue rien à chaud.
+dot.size = 10;
+dot.gap = 18;
+dot.count = 24;
+if (fill.image) {
+    dot.image = fill.image.Scale(dot.size, dot.size);
+    dot.index = 0;
+    while (dot.index < dot.count) {
+        dot.sprites[dot.index] = Sprite(dot.image);
+        dot.sprites[dot.index].SetY(bar.y - dot.size / 2);
+        dot.sprites[dot.index].SetZ(4);
+        dot.sprites[dot.index].SetOpacity(0);
+        dot.index = dot.index + 1;
+    }
+}
+
+fun hide_bullets() {
+    if (fill.image) {
+        index = 0;
+        while (index < dot.count) {
+            dot.sprites[index].SetOpacity(0);
+            index = index + 1;
+        }
+    }
+}
+
+# Respiration lente de la mascotte : sans minuterie, on compte les rafraîchissements.
+pulse.tick = 0;
+fun refresh_callback() {
+    if (mascot.sprite) {
+        pulse.tick = pulse.tick + 1;
+        if (pulse.tick >= 120) pulse.tick = 0;
+        phase = pulse.tick;
+        if (phase > 60) phase = 120 - phase;
+        mascot.sprite.SetOpacity(0.78 + phase / 280);
+    }
+}
+Plymouth.SetRefreshFunction(refresh_callback);
+
+fun progress_callback(duration, progress) {
+    if (fill.image) {
+        width = bar.width * progress;
+        if (width < 2) width = 2;
+        if (width > bar.width) width = bar.width;
+        fill.sprite.SetImage(fill.image.Scale(width, bar.height));
+    }
+}
+Plymouth.SetBootProgressFunction(progress_callback);
+
+fun display_password_callback(prompt, entered) {
+    if (track.sprite) track.sprite.SetOpacity(0);
+    if (fill.sprite) fill.sprite.SetOpacity(0);
+    if (fill.image) {
+        shown = entered;
+        if (shown > dot.count) shown = dot.count;
+        start = screen.width / 2 - shown * dot.gap / 2;
+        index = 0;
+        while (index < dot.count) {
+            if (index < shown) {
+                dot.sprites[index].SetX(start + index * dot.gap);
+                dot.sprites[index].SetOpacity(1);
+            } else {
+                dot.sprites[index].SetOpacity(0);
+            }
+            index = index + 1;
+        }
+    }
+}
+Plymouth.SetDisplayPasswordFunction(display_password_callback);
+
+fun display_normal_callback() {
+    hide_bullets();
+    if (track.sprite) track.sprite.SetOpacity(1);
+    if (fill.sprite) fill.sprite.SetOpacity(1);
+}
+Plymouth.SetDisplayNormalFunction(display_normal_callback);
+
+fun quit_callback() {
+    hide_bullets();
+    if (mascot.sprite) mascot.sprite.SetOpacity(1);
+}
+Plymouth.SetQuitFunction(quit_callback);

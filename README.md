@@ -1,10 +1,25 @@
 # TI-LEX Pro — Debian 13
 Branche de travail : `ti-lex-ios`. Base : Debian 13 « trixie », amd64, XFCE et LightDM.
 
-**État : configuration de construction préparée, ISO non construite et non testée.**
+**État : ISO construite avec succès par l'intégration continue le 13 septembre 2026
+(Debian 13 trixie, amd64, environ 2,8 Gio, 14 minutes de construction).
+Aucun démarrage, aucune installation et aucun test matériel n'ont encore été faits.**
 Le noyau, les paquets et l'installateur viennent des dépôts Debian. Ce dépôt ne recopie pas leurs sources.
 
 ## Construire
+
+### Option A — GitHub Actions, sans VM locale
+Onglet **Actions** → *Construire l'ISO TI-LEX* → **Run workflow** sur `ti-lex-ios`.
+La construction tourne dans un conteneur Debian 13 privilégié sur un exécuteur
+GitHub, travaille dans le disque éphémère `/mnt` et publie l'artéfact
+`ti-lex-pro-debian13-iso` : l'ISO et son fichier `.sha256`, téléchargés dans un
+zip conservé 14 jours. Le résumé du run affiche le nom, la taille et le SHA256 de
+l'image. Le journal complet de live-build est publié séparément
+(`journal-live-build`), y compris quand la construction échoue. Compter environ
+15 minutes et vérifier l'empreinte SHA256 après extraction :
+`sha256sum -c *.iso.sha256`.
+
+### Option B — VM Debian 13 dédiée
 Utiliser une **VM Debian 13 amd64 dédiée**, avec accès Internet, 8 Go de RAM et
 60 Go libres conseillés. Ne pas exécuter la construction sur le système quotidien.
 
@@ -21,6 +36,22 @@ Le script crée un dossier neuf dans `/var/tmp/ti-lex-build-*`, sans nettoyage a
 Il affiche le chemin de l'ISO et de son SHA256. Conserver les journaux et les listes
 de paquets de live-build. L'opération télécharge plusieurs Go et nécessite du temps.
 
+## Pouvoirs du système
+Des capacités, pas un catalogue d'applications : chaque paquet rend le système
+capable d'une classe de choses, et rien ne double ce qui est déjà présent.
+- Tous les formats d'applications Linux : Flatpak avec Flathub, Snap, AppImage,
+  paquets Debian, portails XDG pour les applications confinées.
+- Compilation et langages : chaîne C/C++, CMake, Meson, Ninja, Node, Rust,
+  Python de développement, pipx, débogage avec gdb et valgrind.
+- Conteneurs et virtualisation : Podman sans démon ni racine, Buildah, Skopeo,
+  QEMU/KVM, libvirt et virt-manager, micrologiciel UEFI pour les machines virtuelles.
+  Le compte Live appartient aux groupes libvirt et kvm, sans quoi rien ne démarrerait.
+- Disques et récupération : TestDisk et PhotoRec, ddrescue, LUKS, exFAT, NTFS,
+  Btrfs, F2FS, NVMe, SMART, et memtest86+ depuis le menu de démarrage.
+
+Ces paquets alourdissent l'image de plusieurs gigaoctets. La taille réelle est
+affichée par le résumé de la construction.
+
 ## Contenu
 - Linux amd64, Debian Live, démarrage BIOS/UEFI configuré.
 - XFCE, LightDM GTK, thème sombre provisoire.
@@ -33,22 +64,29 @@ de paquets de live-build. L'opération télécharge plusieurs Go et nécessite d
 ## Images
 Voir [debian13/BRANDING.md](debian13/BRANDING.md).
 Voir [debian13/TESTS.md](debian13/TESTS.md) avant toute installation réelle.
-L'effet vieille TV animé, les agents IA et le pilote NVIDIA spécifique RTX 5060
-ne sont pas encore intégrés ni validés.
+L'écran de démarrage TI-LEX — mascotte vieille TV sur fond noir, thème Plymouth —
+est intégré et vérifié sous Xvfb par l'intégration continue, jamais sur un
+démarrage réel. Les agents IA et le pilote NVIDIA spécifique RTX 5060 ne sont
+pas intégrés.
 
 ## Bureau, terminal et ouverture simplifiée
-- Deux fonds PNG bureau/connexion et six icônes SVG sont intégrés dans la configuration.
+- Deux fonds PNG bureau/connexion, six icônes SVG et la mascotte CRT sont intégrés.
+- 49 icônes vectorielles de types de fichiers, thème TI-LEX héritant d'Adwaita.
+- Fenêtres TI-LEX qui s'allument et s'éteignent comme un tube cathodique.
 - Terminal TI-LEX basé sur XFCE Terminal/Bash, palette dédiée et commande `tilex aide`.
-- Paramètres enrichis : terminal, Python, éditeur, fichiers, archives, sauvegardes et diagnostic.
+- 44 réglages dans un seul panneau : réseau, écrans, son, imprimantes, disques,
+  pare-feu, paquets APT, mises à jour, capteurs, matériel, clés et outils TI-LEX.
 - Clic droit Thunar → Ouvrir avec TI-LEX pour ZIP, AppImage, .sh, .py et .deb compatibles.
 - Aucun exécutable téléchargé ne démarre automatiquement.
 - [Guide du terminal](debian13/TERMINAL.md), [guide du lanceur](debian13/OPEN-APPS.md).
 - [Aperçu interactif Vercel](https://ti-lex-pro-preview-alexmarceauprevost812-3889s-projects.vercel.app) :
-  démonstration web du bureau; ne lance pas Linux et ne remplace pas les tests de l'ISO.
+  démonstration web du bureau, pluie TI-LEX animée en fond; ne lance pas Linux
+  et ne remplace pas les tests de l'ISO.
 
-Les tests locaux Python passent. Les vérifications GitHub contrôlent aussi les fichiers
-et l'initialisation GTK dans Debian. Démarrage complet, matériel et installateur
-restent à valider. La disposition de l'aperçu web est illustrative.
+Les tests locaux Python passent. Les vérifications GitHub contrôlent aussi les fichiers,
+l'initialisation GTK et le chargement réel du thème de démarrage dans Debian.
+Démarrage complet, matériel et installateur restent à valider.
+La disposition de l'aperçu web est illustrative.
 
 ## Ancien prototype
 `src/ti_lex_builder`, `config/packages.txt` et `pyproject.toml` sont conservés

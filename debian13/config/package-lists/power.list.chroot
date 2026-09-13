@@ -1,0 +1,45 @@
+# Applications universelles : au-delà des paquets Debian.
+flatpak
+snapd
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+# Développement : compilation, versions, langages.
+cmake
+meson
+ninja-build
+pkgconf
+git-lfs
+gdb
+valgrind
+nodejs
+npm
+rustc
+cargo
+python3-dev
+pipx
+# Conteneurs et machines virtuelles.
+podman
+buildah
+skopeo
+uidmap
+slirp4netns
+qemu-system-x86
+qemu-utils
+ovmf
+libvirt-daemon-system
+libvirt-clients
+virt-manager
+bridge-utils
+# Maintenance, récupération et systèmes de fichiers.
+testdisk
+gddrescue
+cryptsetup
+exfatprogs
+ntfs-3g
+btrfs-progs
+f2fs-tools
+nvme-cli
+hdparm
+lshw
+dmidecode
+memtest86+
