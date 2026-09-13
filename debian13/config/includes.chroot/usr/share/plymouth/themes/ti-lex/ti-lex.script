@@ -1,7 +1,7 @@
 # Écran de démarrage TI-LEX Pro.
 # Image personnelle et progression du démarrage fournie par Plymouth.
 
-Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundTopColor(0.20, 0.07, 0.02);
 Window.SetBackgroundBottomColor(0, 0, 0);
 
 screen.width = Window.GetWidth(0);
@@ -28,7 +28,7 @@ if (mascot.image) {
     mascot.sprite.SetZ(1);
 }
 
-title.image = Image.Text("TI-LEX PRO", 1, 0.54, 0.14);
+title.image = Image.Text("TI-LEX PRO", 1, 1, 1);
 if (title.image) {
     title.sprite = Sprite(title.image);
     title.sprite.SetX(screen.width / 2 - title.image.GetWidth() / 2);

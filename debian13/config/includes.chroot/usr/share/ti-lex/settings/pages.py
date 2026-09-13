@@ -24,7 +24,7 @@ PAGES = [
      ["Pare-feu", "Clés et mots de passe"]),
     ("Terminal et développement", "ti-lex-terminal", "Terminal, commandes, Python et édition de texte.",
      ["Terminal TI-LEX", "Préférences du terminal", "Guide des commandes", "Sessions tmux",
-      "Python", "Éditeur de texte"]),
+      "Python", "Éditeur de texte", "Éditeur Geany", "Git graphique", "Comparer des fichiers"]),
     ("Virtualisation", "computer", "Machines virtuelles et consultation des conteneurs Podman.",
      ["Machines virtuelles", "Conteneurs"]),
     ("Système et diagnostic", "ti-lex-system", "Matériel, processus, capteurs et journaux.",

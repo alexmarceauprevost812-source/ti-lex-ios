@@ -4,6 +4,9 @@ import shutil
 import subprocess
 
 TOOLS = {
+    "Éditeur Geany": ("geany",),
+    "Git graphique": ("git-cola",),
+    "Comparer des fichiers": ("meld",),
     "Navigateur Web": ("firefox-esr",),
     "Fermer la session / alimentation": ("xfce4-session-logout",),
     "Choisir un réseau Wi-Fi": ("xfce4-terminal", "--disable-server", "--execute", "nmtui-connect"),
