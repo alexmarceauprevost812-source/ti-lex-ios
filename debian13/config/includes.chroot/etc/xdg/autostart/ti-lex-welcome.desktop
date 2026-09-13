@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Bienvenue TI-LEX PRO
+Comment=Accueil de votre session
+Exec=python3 /usr/share/ti-lex/welcome/app.py
+Icon=/usr/share/ti-lex/branding/avatar.svg
+OnlyShowIn=XFCE;
+Terminal=false

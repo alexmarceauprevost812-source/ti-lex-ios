@@ -1,5 +1,11 @@
 # Bureau TI-LEX PRO
 
+Après la connexion, un accueil plein écran reprend le fond noir et orange,
+l'avatar, « Bienvenue chez vous » et le bouton « Entrer dans le bureau ».
+Le bouton, Entrée lorsqu'il a le focus, ou Échap ferment cet accueil.
+LightDM continue de gérer l'authentification. L'accueil peut être désactivé
+dans les applications au démarrage XFCE (Bienvenue TI-LEX PRO).
+
 Les nouveaux comptes XFCE reçoivent une barre supérieure noire avec menu
 TI-LEX PRO, fenêtres ouvertes, zone de notification réseau/Bluetooth,
 horloge et actions de session. Un dock vertical à droite ouvre les fichiers,
