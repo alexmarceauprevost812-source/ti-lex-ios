@@ -9,6 +9,9 @@ test -f "$theme/ti-lex.script"
 test -f /etc/plymouth/plymouthd.conf
 cp "$branding/boot-mascot.png" "$theme/mascot.png"
 
+# Le système installé tient sa ligne de commande de GRUB, pas de lb config.
+test -f /etc/default/grub.d/99-ti-lex-splash.cfg
+
 # Le thème doit vivre dans l'initramfs : le splash s'affiche avant la racine.
 update-initramfs -u
 test -x /usr/sbin/plymouthd

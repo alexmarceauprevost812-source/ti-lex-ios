@@ -31,7 +31,8 @@ secrète. Le langage de script Plymouth ne trace pas de formes et n'a pas de pol
 garantie dans l'initramfs : les barres sont des images unies mises à l'échelle, et
 rien n'y est écrit en toutes lettres. /etc/plymouth/plymouthd.conf sélectionne le
 thème, le hook 0700 y copie la mascotte et régénère l'initramfs, et la ligne de
-commande noyau porte « quiet splash ». L'intégration continue le charge réellement
+commande noyau porte « quiet splash » — en live par lb config, et sur le système
+installé par /etc/default/grub.d/99-ti-lex-splash.cfg. L'intégration continue le charge réellement
 sous Xvfb et vérifie qu'il dessine ; il n'a jamais été vu sur un démarrage réel.
 
 Le verrouillage garde le comportement du verrouilleur de session :
