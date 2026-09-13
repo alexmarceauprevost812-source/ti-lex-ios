@@ -9,10 +9,22 @@ function applyToolArtwork(){
     const icon=document.createElement('span');
     icon.className='work-tool-icon';icon.setAttribute('aria-hidden','true');
     icon.style.backgroundPosition=`${-(point[0]-60)/3}px ${-(point[1]-60)/3}px`;
+    if(button.dataset.open==='files'){
+      icon.className='folder-artwork';
+      icon.style.backgroundPosition='';
+    }
     original.replaceWith(icon);
   });
 }
 document.addEventListener('DOMContentLoaded',applyToolArtwork);
+function applyZipArtwork(){
+  const original=content.querySelector('#zip > img');
+  if(!original)return;
+  const icon=document.createElement('span');
+  icon.className='zip-artwork';icon.setAttribute('aria-hidden','true');
+  original.replaceWith(icon);
+}
+new MutationObserver(applyZipArtwork).observe(content,{childList:true,subtree:true});
 const titles={home:"Bienvenue sur TI-LEX Pro",settings:"Paramètres TI-LEX Pro",terminal:"Terminal TI-LEX Pro",files:"Mes fichiers · Téléchargements",apps:"Ouvrir avec TI-LEX"};
 function message(title,body){document.querySelector("#message-title").textContent=title;document.querySelector("#message-body").textContent=body;document.querySelector("#message").showModal()}
 function openApp(name){win.hidden=false;document.querySelector("#window-title").textContent=titles[name];({home,settings,terminal,files,apps}[name]||home)()}
