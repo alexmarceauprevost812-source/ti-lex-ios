@@ -27,7 +27,8 @@ function paintMatrix(scene, seconds) {
     for (let row=0;row<13;row++) {
       const y=head-row*21;
       if (y<0||y>height) continue;
-      ctx.fillStyle = row===0 ? "rgba(170,255,189,.85)" : "rgba(25,190,86,"+((1-row/13)*.6)+")";
+      const bootScene=scene.canvas.parentElement.id==="boot";
+      ctx.fillStyle = row===0 ? (bootScene?"rgba(255,222,180,.85)":"rgba(170,255,189,.85)") : (bootScene?"rgba(255,138,36,":"rgba(25,190,86,")+((1-row/13)*.6)+")";
       ctx.fillText(glyphs[(i+row+Math.floor(seconds*2))%glyphs.length],col.x,y);
     }
   }

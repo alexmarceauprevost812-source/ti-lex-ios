@@ -24,6 +24,14 @@
 .motion-control{position:absolute;top:20px;right:24px;background:#111a13d9;border:1px solid #2d4a34;color:#a8c5af;padding:9px 13px;border-radius:8px;font-size:10px;z-index:2}
 .login-edition{position:absolute;bottom:19px;letter-spacing:3px;font-size:9px;color:#637a68}
 .boot-card{text-align:center;padding:25px;position:relative;background:radial-gradient(ellipse,#000 50%,transparent 75%)}
+#boot{background:radial-gradient(ellipse at 50% 40%,#6b280a 0%,#211008 48%,#080605 85%);color:#fff}
+#boot .boot-card{width:min(460px,calc(100% - 32px));padding:32px 24px;background:#100a07eb;border:1px solid #ff8a2466;border-radius:24px;box-shadow:0 0 70px #f9731626}
+#boot .eyebrow,#boot .boot-card>p:last-of-type{color:#fff}
+#boot .boot-progress{width:min(260px,90%);height:4px;background:#74340e;border-radius:4px}
+#boot .boot-progress:after{background:#ff8a24;box-shadow:0 0 16px #ff8a24}
+#boot #skip-boot{color:#fff;background:#b94708;border:1px solid #ff8a24;min-height:44px;transition:background-color .25s ease,box-shadow .25s ease}
+#boot #skip-boot:hover,#boot #skip-boot:focus-visible{background:#cc5009;box-shadow:0 0 24px #ff8a2444;filter:none}
+@media(prefers-reduced-motion:reduce){#boot #skip-boot{transition:none}}
 .boot-card h2{font-size:28px;font-weight:400;letter-spacing:-.7px}.boot-card>p:last-of-type{color:#789080;font-size:11px}.boot-card .secondary{margin-top:20px}
 .boot-progress{height:2px;width:180px;background:#15311c;margin:26px auto;overflow:hidden}.boot-progress:after{content:'';display:block;width:45%;height:100%;background:#84f5a0;animation:boot-slide 1.4s ease-in-out infinite}
 @keyframes boot-slide{from{transform:translateX(-100%)}to{transform:translateX(330%)}}
