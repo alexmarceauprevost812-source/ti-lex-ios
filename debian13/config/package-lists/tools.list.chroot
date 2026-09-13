@@ -18,7 +18,7 @@ ripgrep
 jq
 unzip
 zip
-p7zip-full
+7zip
 gparted
 smartmontools
 pciutils
@@ -27,3 +27,13 @@ iproute2
 dnsutils
 ufw
 apparmor
+bash-completion
+ncdu
+tree
+lsof
+strace
+deja-dup
+xarchiver
+thunar
+gdebi
+libfuse2t64

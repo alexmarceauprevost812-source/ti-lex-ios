@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+  <action>
+    <icon>/usr/share/ti-lex/branding/tools.svg</icon>
+    <name>Ouvrir avec TI-LEX</name>
+    <unique-id>ti-lex-open-1</unique-id>
+    <command>ti-lex-open %f</command>
+    <description>Extraire un ZIP ou lancer un programme Linux sans terminal</description>
+    <patterns>*.zip;*.ZIP;*.AppImage;*.appimage;*.sh;*.py;*.deb</patterns>
+    <startup-notify/>
+    <other-files/>
+    <text-files/>
+  </action>
+</actions>

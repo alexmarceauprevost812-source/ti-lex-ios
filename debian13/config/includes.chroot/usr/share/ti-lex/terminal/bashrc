@@ -1,0 +1,8 @@
+# Loaded only by Terminal TI-LEX; preserve the user's normal Bash configuration.
+[ -r "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+case $- in *i*) ;; *) return ;; esac
+if [ -t 1 ] && [ "$TERM" != dumb ]; then
+    PS1='\[\e[38;5;208m\]\u@\h\[\e[0m\] \[\e[38;5;154m\]\w\[\e[0m\]\n\$ '
+    printf '\033[38;5;208m\n  TI-LEX PRO  /  TERMINAL\033[0m\n'
+    printf '  Tapez tilex aide pour découvrir les outils.\n\n'
+fi

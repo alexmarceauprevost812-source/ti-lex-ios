@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Fond du bureau TI-LEX
+Exec=python3 /usr/share/ti-lex/desktop/setup.py
+OnlyShowIn=XFCE;
+NoDisplay=true
+Terminal=false

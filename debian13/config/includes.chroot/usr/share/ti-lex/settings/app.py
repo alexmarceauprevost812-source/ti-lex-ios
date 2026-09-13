@@ -27,6 +27,7 @@ button:disabled label { color: #cccccc; }
 class Settings(Gtk.Window):
     def __init__(self):
         super().__init__(title="Paramètres TI-LEX Pro")
+        self.set_icon_from_file("/usr/share/ti-lex/branding/settings.svg")
         self.set_default_size(900, 720)
         self.alive = True
         self.busy = False
@@ -53,6 +54,10 @@ class Settings(Gtk.Window):
                 "Imprimantes", "Scanner", "Écrans", "Clavier",
                 "Souris et pavé tactile", "Apparence", "Fond du bureau", "Alimentation"]),
             ("Système", ["Disques", "Pare-feu", "Processus", "Tous les paramètres XFCE"]),
+            ("Terminal et développement", ["Terminal TI-LEX", "Préférences du terminal",
+                "Guide des commandes", "Sessions tmux", "Python", "Éditeur de texte"]),
+            ("Fichiers et diagnostic", ["Ouvrir une application", "Fichiers", "Archives", "Sauvegardes",
+                "Espace disque", "Capture d’écran", "Informations système", "Journaux système"]),
         ]:
             card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
             card.get_style_context().add_class("card")

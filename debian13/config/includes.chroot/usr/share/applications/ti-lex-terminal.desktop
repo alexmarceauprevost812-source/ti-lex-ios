@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Terminal TI-LEX Pro
+Comment=Terminal Linux avec les outils TI-LEX
+Exec=ti-lex-terminal
+Icon=/usr/share/ti-lex/branding/terminal.svg
+Terminal=false
+Categories=System;TerminalEmulator;
+StartupNotify=true

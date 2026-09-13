@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+chmod 0755 /usr/local/bin/tilex /usr/local/bin/ti-lex-terminal
+chmod 0755 /usr/local/bin/ti-lex-open
+test -x /usr/bin/xfce4-terminal
+test -x /usr/bin/bash
+test -f /usr/share/ti-lex/terminal/bashrc

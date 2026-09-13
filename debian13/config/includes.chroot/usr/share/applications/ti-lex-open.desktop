@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Ouvrir avec TI-LEX
+Comment=Extraire et lancer une application Linux sans terminal
+Exec=ti-lex-open %f
+Icon=/usr/share/ti-lex/branding/tools.svg
+Terminal=false
+Categories=Utility;
+MimeType=application/zip;application/x-executable;application/x-pie-executable;application/x-shellscript;text/x-python;application/vnd.appimage;application/x-iso9660-appimage;application/vnd.debian.binary-package;

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TI-LEX Pro · Bureau interactif</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<div class="preview-notice"><span class="signal"></span> APERÇU INTERACTIF <span class="notice-detail">Interface de démonstration · aucun système Linux exécuté dans le navigateur</span><a href="https://github.com/alexmarceauprevost812-source/ti-lex-ios/tree/ti-lex-ios" target="_blank" rel="noopener">Voir le projet ↗</a></div>
+<main id="desktop">
+<header class="panel"><button class="brand" data-open="home"><img src="assets/logo.svg" alt=""> TI-LEX <b>PRO</b></button><span class="panel-title">Votre espace. Vos outils.</span><div class="panel-right"><span>FR</span><span aria-label="Réseau de démonstration">◉</span><span>◖))</span><time id="clock"></time><button id="lock" aria-label="Voir l’écran de connexion">⏻</button></div></header>
+<nav class="desktop-icons" aria-label="Applications du bureau">
+<button data-open="files"><img src="assets/folder.svg" alt=""><span>Mes fichiers</span></button>
+<button data-open="terminal"><img src="assets/terminal.svg" alt=""><span>Terminal</span></button>
+<button data-open="settings"><img src="assets/settings.svg" alt=""><span>Paramètres</span></button>
+<button data-open="apps"><img src="assets/tools.svg" alt=""><span>Mes applications</span></button>
+</nav>
+<div class="wallpaper-label"><span>TI-LEX / 01</span><h1>Un espace<br>pour créer.</h1><p>LINUX · PYTHON · LIBERTÉ</p></div>
+<section class="window" id="window" aria-label="Fenêtre d’application"><header class="window-bar"><span class="window-mark">●</span><strong id="window-title">Bienvenue</strong><span class="window-controls"><button id="minimize" aria-label="Réduire">−</button><button id="maximize" aria-label="Agrandir">□</button><button id="close" aria-label="Fermer">×</button></span></header><div id="content"></div></section>
+<footer class="dock" aria-label="Lanceur rapide"><button data-open="home" aria-label="Accueil"><img src="assets/logo.svg" alt=""></button><i></i><button data-open="files" aria-label="Fichiers"><img src="assets/folder.svg" alt=""></button><button data-open="terminal" aria-label="Terminal"><img src="assets/terminal.svg" alt=""></button><button data-open="settings" aria-label="Paramètres"><img src="assets/settings.svg" alt=""></button><button data-open="apps" aria-label="Applications"><img src="assets/tools.svg" alt=""></button></footer>
+<div class="edition">TI-LEX PRO <span>DEBIAN 13 / XFCE</span></div>
+</main>
+<dialog id="message"><form method="dialog"><p class="eyebrow">TI-LEX PRO</p><h2 id="message-title"></h2><p id="message-body"></p><button class="primary">Compris</button></form></dialog>
+<div id="login" hidden><div class="login-card"><img src="assets/avatar.svg" alt=""><p class="eyebrow">BIENVENUE CHEZ VOUS</p><h2>TI-LEX Pro</h2><p>Écran de connexion · aperçu</p><button class="primary" id="unlock">Entrer dans le bureau →</button></div></div>
+<script src="app.js"></script></body></html>

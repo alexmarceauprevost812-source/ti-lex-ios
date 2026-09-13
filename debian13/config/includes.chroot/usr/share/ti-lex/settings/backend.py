@@ -22,11 +22,29 @@ TOOLS = {
     "Pare-feu": ("gufw",),
     "Processus": ("xfce4-taskmanager",),
     "Tous les paramètres XFCE": ("xfce4-settings-manager",),
+    "Terminal TI-LEX": ("ti-lex-terminal",),
+    "Ouvrir une application": ("ti-lex-open",),
+    "Préférences du terminal": ("xfce4-terminal", "--preferences"),
+    "Guide des commandes": ("xfce4-terminal", "--disable-server", "--hold", "--execute", "tilex", "aide"),
+    "Sessions tmux": ("xfce4-terminal", "--disable-server", "--execute", "tmux", "new-session", "-A", "-s", "ti-lex"),
+    "Python": ("xfce4-terminal", "--disable-server", "--execute", "python3"),
+    "Éditeur de texte": ("mousepad",),
+    "Fichiers": ("thunar",),
+    "Archives": ("xarchiver",),
+    "Sauvegardes": ("deja-dup",),
+    "Espace disque": ("xfce4-terminal", "--disable-server", "--execute", "ncdu"),
+    "Capture d’écran": ("xfce4-screenshooter",),
+    "Informations système": ("xfce4-terminal", "--disable-server", "--hold", "--execute", "tilex", "systeme"),
+    "Journaux système": ("xfce4-terminal", "--disable-server", "--hold", "--execute", "tilex", "journaux"),
 }
 
 def available(command):
-    return shutil.which(command[0]) is not None and (
-        command[0] != "xfce4-terminal" or shutil.which("nmtui-connect") is not None)
+    if not command or shutil.which(command[0]) is None:
+        return False
+    if command[0] == "xfce4-terminal" and "--execute" in command:
+        index = command.index("--execute") + 1
+        return index < len(command) and shutil.which(command[index]) is not None
+    return True
 
 def query(command):
     try:

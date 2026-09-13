@@ -1,0 +1,37 @@
+name: Vérification Debian et GTK
+on:
+  push:
+    branches: [ti-lex-ios]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    runs-on: ubuntu-latest
+    container: debian:13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Installer les dépendances de vérification
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends python3 python3-gi gir1.2-gtk-3.0 xvfb xauth dbus-x11 desktop-file-utils xfce4-terminal
+      - name: Vérifier les paquets du manifeste
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          for path in Path("debian13/config/package-lists").glob("*.list.chroot"):
+              for package in path.read_text().splitlines():
+                  if package and not package.startswith("#"):
+                      subprocess.run(["apt-cache", "show", package], stdout=subprocess.DEVNULL, check=True)
+          PY
+      - name: Vérifier les lanceurs et le shell
+        run: |
+          desktop-file-validate debian13/config/includes.chroot/usr/share/applications/*.desktop
+          bash -n debian13/config/includes.chroot/usr/local/bin/ti-lex-terminal
+          bash -n debian13/config/includes.chroot/usr/local/bin/ti-lex-open
+          bash -n debian13/config/includes.chroot/usr/share/ti-lex/terminal/bashrc
+      - name: Vérifier les fenêtres GTK
+        run: |
+          cp -r debian13/config/includes.chroot/usr/share/ti-lex /usr/share/
+          xvfb-run -a dbus-run-session -- python3 debian13/tests/smoke_gtk.py

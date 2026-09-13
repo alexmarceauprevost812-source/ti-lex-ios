@@ -31,3 +31,9 @@ Tests matériels et test visuel GTK non encore effectués.
 Micro : pavucontrol, onglet Périphériques d’entrée : niveau, sélection, sourdine.
 Enregistrement audio : GNOME Sound Recorder; webcam : Cheese; scanner : Simple Scan;
 imprimantes : system-config-printer. Aucune capture automatique au démarrage.
+
+Terminal et développement : terminal TI-LEX, préférences XFCE Terminal, guide
+des commandes, sessions tmux, Python et Mousepad.
+Fichiers et diagnostic : lanceur d'applications TI-LEX, Thunar, Xarchiver,
+Déjà Dup, ncdu, capture d'écran, informations système et journaux.
+Ces outils sont ajoutés aux listes de paquets de la future image.

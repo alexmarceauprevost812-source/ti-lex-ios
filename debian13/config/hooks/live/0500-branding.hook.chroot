@@ -8,6 +8,8 @@ if [ -f "$branding/login.png" ]; then
 fi
 if [ -f "$branding/avatar.png" ]; then
     printf '\ndefault-user-image=/usr/share/ti-lex/branding/avatar.png\n' >> "$greeter"
+elif [ -f "$branding/avatar.svg" ]; then
+    printf '\ndefault-user-image=/usr/share/ti-lex/branding/avatar.svg\n' >> "$greeter"
 fi
 # Retain Debian os-release for package and installer compatibility.
 test -x /usr/sbin/lightdm
