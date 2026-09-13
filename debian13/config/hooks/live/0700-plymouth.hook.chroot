@@ -7,7 +7,7 @@ branding=/usr/share/ti-lex/branding
 test -f "$theme/ti-lex.plymouth"
 test -f "$theme/ti-lex.script"
 test -f /etc/plymouth/plymouthd.conf
-cp "$branding/mascot.png" "$theme/mascot.png"
+cp "$branding/boot-mascot.png" "$theme/mascot.png"
 
 # Le thème doit vivre dans l'initramfs : le splash s'affiche avant la racine.
 update-initramfs -u

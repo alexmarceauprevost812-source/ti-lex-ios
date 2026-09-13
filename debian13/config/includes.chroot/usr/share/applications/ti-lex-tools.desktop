@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=Outils TI-LEX Pro
-Comment=Guide des commandes et des outils Linux
-Exec=xfce4-terminal --disable-server --hold --title=Outils-TI-LEX --execute tilex aide
+Comment=Ouvrir les vrais outils et paramètres Linux
+Exec=python3 /usr/share/ti-lex/settings/app.py
 Icon=/usr/share/ti-lex/branding/tools.svg
 Terminal=false
 Categories=System;Utility;

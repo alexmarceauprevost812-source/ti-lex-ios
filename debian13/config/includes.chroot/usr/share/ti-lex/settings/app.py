@@ -66,7 +66,13 @@ class Settings(Gtk.Window):
             ("Bureau et matériel", ["Son et microphones", "Enregistrer le microphone", "Webcam",
                 "Imprimantes", "Scanner", "Écrans", "Clavier",
                 "Souris et pavé tactile", "Apparence", "Fond du bureau", "Alimentation"]),
-            ("Système", ["Disques", "Pare-feu", "Processus", "Tous les paramètres XFCE"]),
+            ("Système", ["Disques", "Pare-feu", "Processus", "Tous les paramètres XFCE",
+                "Matériel détecté", "Températures et capteurs", "Date et heure",
+                "Clés et mots de passe", "Fermer la session / alimentation"]),
+            ("Applications", ["Navigateur Web", "Gestionnaire de paquets",
+                "Mises à jour disponibles", "Applications Flatpak", "Machines virtuelles", "Conteneurs"]),
+            ("Personnalisation", ["Accessibilité", "Notifications", "Gestionnaire de fenêtres",
+                "Réglages du panneau", "Applications au démarrage"]),
             ("Terminal et développement", ["Terminal TI-LEX", "Préférences du terminal",
                 "Guide des commandes", "Sessions tmux", "Python", "Éditeur de texte"]),
             ("Fichiers et diagnostic", ["Ouvrir une application", "Fichiers", "Archives", "Sauvegardes",
@@ -88,6 +94,13 @@ class Settings(Gtk.Window):
             for text in buttons:
                 command = TOOLS[text]
                 button = Gtk.Button(label=text)
+                icons = {"Wi-Fi": "ti-lex-network", "Bluetooth": "bluetooth",
+                         "Bureau et matériel": "ti-lex-settings", "Système": "ti-lex-system",
+                         "Applications": "system-software-install", "Personnalisation": "ti-lex-settings",
+                         "Terminal et développement": "ti-lex-terminal",
+                         "Fichiers et diagnostic": "ti-lex-files"}
+                button.set_image(Gtk.Image.new_from_icon_name(icons[name], Gtk.IconSize.DIALOG))
+                button.set_always_show_image(True)
                 button.set_sensitive(available(command))
                 button.set_tooltip_text("Ouvrir l’outil système" if available(command)
                                         else "Outil non installé — indisponible")

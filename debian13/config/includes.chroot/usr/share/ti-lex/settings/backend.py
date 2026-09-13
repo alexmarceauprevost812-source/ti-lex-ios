@@ -4,6 +4,8 @@ import shutil
 import subprocess
 
 TOOLS = {
+    "Navigateur Web": ("firefox-esr",),
+    "Fermer la session / alimentation": ("xfce4-session-logout",),
     "Choisir un réseau Wi-Fi": ("xfce4-terminal", "--disable-server", "--execute", "nmtui-connect"),
     "Profils réseau / VPN": ("nm-connection-editor",),
     "Appareils Bluetooth": ("blueman-manager",),

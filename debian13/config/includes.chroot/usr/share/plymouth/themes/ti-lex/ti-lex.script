@@ -1,10 +1,8 @@
 # Écran de démarrage TI-LEX Pro.
-# Le langage de script Plymouth ne trace aucune forme et n'a pas de police
-# garantie dans l'initramfs : les barres sont des images unies de 8 pixels
-# mises à l'échelle, et rien n'est écrit en toutes lettres.
+# Image personnelle et progression du démarrage fournie par Plymouth.
 
-Window.SetBackgroundTopColor(0.031, 0.031, 0.043);
-Window.SetBackgroundBottomColor(0.031, 0.031, 0.043);
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
 
 screen.width = Window.GetWidth(0);
 screen.height = Window.GetHeight(0);
@@ -20,10 +18,22 @@ mascot.image = Image("mascot.png");
 if (mascot.image) {
     mascot.height = screen.height / 3;
     mascot.width = mascot.image.GetWidth() * mascot.height / mascot.image.GetHeight();
+    if (mascot.width > screen.width * 0.8) {
+        mascot.width = screen.width * 0.8;
+        mascot.height = mascot.image.GetHeight() * mascot.width / mascot.image.GetWidth();
+    }
     mascot.sprite = Sprite(mascot.image.Scale(mascot.width, mascot.height));
     mascot.sprite.SetX(screen.width / 2 - mascot.width / 2);
     mascot.sprite.SetY(bar.y - mascot.height - screen.height / 12);
     mascot.sprite.SetZ(1);
+}
+
+title.image = Image.Text("TI-LEX PRO", 1, 0.54, 0.14);
+if (title.image) {
+    title.sprite = Sprite(title.image);
+    title.sprite.SetX(screen.width / 2 - title.image.GetWidth() / 2);
+    title.sprite.SetY(bar.y - screen.height / 16);
+    title.sprite.SetZ(2);
 }
 
 track.image = Image("track.png");
