@@ -21,7 +21,12 @@ Aucun des tests de démarrage suivants n'a encore été exécuté.
    absence d'autologin, LightDM et mises à jour apt.
 10. Tester la machine réelle en mode Live, sans installation : NVIDIA RTX 5060,
    Wi-Fi, veille et écrans. Aucun pilote propriétaire spécifique n'est promis.
-11. Ne proposer l'installation réelle qu'après sauvegarde et succès des tests.
+11. Vérifier les pouvoirs en session Live : « flatpak remotes » liste Flathub,
+    « podman run --rm hello-world » démarre un conteneur, virt-manager s'ouvre et
+    voit /dev/kvm, « lsblk -f » reconnaît exFAT et NTFS, et memtest86+ apparaît au
+    menu de démarrage. Sans /dev/kvm — cas d'une machine virtuelle imbriquée — la
+    virtualisation reste indisponible : ce n'est pas un défaut de l'image.
+12. Ne proposer l'installation réelle qu'après sauvegarde et succès des tests.
 
 Le script ne formate aucun disque. L'installateur peut effacer celui que
 l'utilisateur sélectionne : toujours vérifier la cible.
