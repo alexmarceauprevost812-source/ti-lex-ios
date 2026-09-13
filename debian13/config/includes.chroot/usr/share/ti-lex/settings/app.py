@@ -27,7 +27,10 @@ button:disabled label { color: #cccccc; }
 class Settings(Gtk.Window):
     def __init__(self):
         super().__init__(title="Paramètres TI-LEX Pro")
-        self.set_icon_from_file("/usr/share/ti-lex/branding/settings.svg")
+        try:
+            self.set_icon_from_file("/usr/share/ti-lex/branding/settings.svg")
+        except GLib.Error:
+            self.set_icon_name("preferences-system")
         self.set_default_size(900, 720)
         self.alive = True
         self.busy = False

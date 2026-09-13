@@ -18,4 +18,5 @@ firefox-esr
 firefox-esr-l10n-fr
 fonts-noto
 adwaita-icon-theme
+librsvg2-common
 gnome-themes-extra

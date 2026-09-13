@@ -6,9 +6,11 @@ import tempfile
 import time
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk, GLib
+from gi.repository import Gtk, Gdk, GLib, GdkPixbuf
 
 ROOT = Path(__file__).resolve().parents[1] / "config/includes.chroot/usr/share/ti-lex"
+for icon in (ROOT / "branding").glob("*.svg"):
+    GdkPixbuf.Pixbuf.new_from_file(str(icon))
 def load(name, folder):
     sys.path.insert(0, str(folder))
     spec = importlib.util.spec_from_file_location(name, folder / "app.py")

@@ -14,7 +14,10 @@ class Launcher(Gtk.Window):
     def __init__(self, source):
         super().__init__(title="Ouvrir avec TI-LEX")
         self.set_default_size(600, 360)
-        self.set_icon_from_file("/usr/share/ti-lex/branding/tools.svg")
+        try:
+            self.set_icon_from_file("/usr/share/ti-lex/branding/tools.svg")
+        except GLib.Error:
+            self.set_icon_name("system-run")
         self.connect("destroy", Gtk.main_quit)
         self.source = source.resolve()
         self.paths = []
