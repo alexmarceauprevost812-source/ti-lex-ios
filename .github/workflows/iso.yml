@@ -5,8 +5,6 @@ name: Construire l'ISO TI-LEX
 # téléchargement depuis les dépôts Debian.
 on:
   workflow_dispatch:
-  push:
-    branches: [claude/brave-knuth-2vda54]
 
 permissions:
   contents: read
@@ -56,6 +54,13 @@ jobs:
           sudo chown -R "$(id -u):$(id -g)" image
           ls -lh image
           cat image/*.iso.sha256
+          {
+            echo "## ISO TI-LEX"
+            echo
+            echo "| Fichier | Taille | SHA256 |"
+            echo "| --- | --- | --- |"
+            echo "| \`$(basename "$iso")\` | $(du -h image/*.iso | cut -f1) | \`$(cut -d' ' -f1 image/*.iso.sha256)\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publier l'ISO
         uses: actions/upload-artifact@v4

@@ -1,7 +1,9 @@
 # TI-LEX Pro — Debian 13
 Branche de travail : `ti-lex-ios`. Base : Debian 13 « trixie », amd64, XFCE et LightDM.
 
-**État : configuration de construction préparée, ISO non construite et non testée.**
+**État : ISO construite avec succès par l'intégration continue le 13 septembre 2026
+(Debian 13 trixie, amd64, environ 2,8 Gio, 14 minutes de construction).
+Aucun démarrage, aucune installation et aucun test matériel n'ont encore été faits.**
 Le noyau, les paquets et l'installateur viennent des dépôts Debian. Ce dépôt ne recopie pas leurs sources.
 
 ## Construire
@@ -11,9 +13,11 @@ Onglet **Actions** → *Construire l'ISO TI-LEX* → **Run workflow** sur `ti-le
 La construction tourne dans un conteneur Debian 13 privilégié sur un exécuteur
 GitHub, travaille dans le disque éphémère `/mnt` et publie l'artéfact
 `ti-lex-pro-debian13-iso` : l'ISO et son fichier `.sha256`, téléchargés dans un
-zip conservé 14 jours. Le journal complet de live-build est publié séparément
-(`journal-live-build`), y compris quand la construction échoue. Prévoir de 30 à
-60 minutes et vérifier l'empreinte SHA256 après extraction.
+zip conservé 14 jours. Le résumé du run affiche le nom, la taille et le SHA256 de
+l'image. Le journal complet de live-build est publié séparément
+(`journal-live-build`), y compris quand la construction échoue. Compter environ
+15 minutes et vérifier l'empreinte SHA256 après extraction :
+`sha256sum -c *.iso.sha256`.
 
 ### Option B — VM Debian 13 dédiée
 Utiliser une **VM Debian 13 amd64 dédiée**, avec accès Internet, 8 Go de RAM et
