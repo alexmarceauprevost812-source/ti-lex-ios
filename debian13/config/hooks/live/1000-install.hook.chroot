@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+# These paths are inside the live-build chroot, never on the user's host.
+
+test -x /usr/bin/calamares
+test -d /etc/calamares
+test -f /etc/calamares/modules/locale.conf
+test -f /usr/share/applications/ti-lex-install.desktop
+desktop-file-validate /usr/share/applications/ti-lex-install.desktop
+
+# La configuration Debian de Calamares retire l'assistant du système installé ;
+# TryExec fait alors disparaître le lanceur du menu, sans entrée morte.
+grep -q "^TryExec=/usr/bin/calamares$" /usr/share/applications/ti-lex-install.desktop

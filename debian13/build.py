@@ -24,7 +24,7 @@ def options():
         "--checksums", "sha256", "--image-name", "ti-lex-pro-debian13",
         "--iso-volume", "TI_LEX_PRO_13",
         "--bootappend-live",
-        "boot=live components quiet splash username=tilex hostname=ti-lex user-default-groups=audio,cdrom,dip,floppy,video,plugdev,netdev,powerdev,scanner,bluetooth,libvirt,kvm locales=fr_CA.UTF-8 keyboard-layouts=ca timezone=America/Toronto",
+        "boot=live components quiet splash username=tilex hostname=ti-lex user-default-groups=audio,cdrom,dip,floppy,video,plugdev,netdev,powerdev,scanner,bluetooth,libvirt,kvm locales=fr_CA.UTF-8 keyboard-layouts=ca timezone=America/Montreal",
     ]
 
 def validate():

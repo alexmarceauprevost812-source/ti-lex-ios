@@ -1,0 +1,4 @@
+# Assistant d'installation graphique de la session live.
+# L'installateur Debian reste au menu de démarrage : secours et mode texte.
+calamares
+calamares-settings-debian

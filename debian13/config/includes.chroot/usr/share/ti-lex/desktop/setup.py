@@ -6,6 +6,27 @@ import subprocess
 import time
 
 WALLPAPER = "/usr/share/ti-lex/branding/desktop.png"
+INSTALLER = "/usr/share/applications/ti-lex-install.desktop"
+
+def offer_installer(state):
+    """Copie le lanceur d'installation sur le bureau, en session live seulement.
+    Le système installé n'a plus Calamares : rien n'est copié, aucune entrée morte."""
+    if state.exists() or not Path("/usr/bin/calamares").is_file() or not Path(INSTALLER).is_file():
+        return
+    try:
+        result = subprocess.run(["xdg-user-dir", "DESKTOP"], capture_output=True,
+                                text=True, timeout=5)
+        desktop = Path(result.stdout.strip()) if result.returncode == 0 and result.stdout.strip() else None
+        if desktop is None or not desktop.is_dir():
+            return
+        target = desktop / "ti-lex-install.desktop"
+        target.write_text(Path(INSTALLER).read_text(encoding="utf-8"), encoding="utf-8")
+        target.chmod(0o755)
+        state.parent.mkdir(parents=True, exist_ok=True)
+        state.write_text("1\n", encoding="utf-8")
+    except (OSError, subprocess.SubprocessError):
+        pass
+
 def apply_once(state, attempts=30):
     if state.exists() or not Path(WALLPAPER).is_file():
         return
@@ -39,3 +60,4 @@ def apply_once(state, attempts=30):
 if __name__ == "__main__":
     state_root = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
     apply_once(state_root / "ti-lex/desktop-v1")
+    offer_installer(state_root / "ti-lex/installer-v1")

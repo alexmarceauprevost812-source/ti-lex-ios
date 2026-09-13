@@ -27,6 +27,7 @@ TOOLS = {
     "Réglages du panneau": ("xfce4-panel", "--preferences"),
     "Applications au démarrage": ("xfce4-session-settings",),
     "Tous les paramètres XFCE": ("xfce4-settings-manager",),
+    "Installer TI-LEX Pro": ("pkexec", "/usr/bin/calamares"),
     "Gestionnaire de paquets": ("synaptic-pkexec",),
     "Mises à jour disponibles": ("xfce4-terminal", "--disable-server", "--hold", "--execute", "apt", "list", "--upgradable"),
     "Clés et mots de passe": ("seahorse",),
@@ -59,6 +60,9 @@ def available(command):
     if command[0] == "xfce4-terminal" and "--execute" in command:
         index = command.index("--execute") + 1
         return index < len(command) and shutil.which(command[index]) is not None
+    if command[0] == "pkexec":
+        # pkexec existe partout : c'est le programme lancé qui décide.
+        return len(command) > 1 and shutil.which(command[1]) is not None
     return True
 
 def query(command):

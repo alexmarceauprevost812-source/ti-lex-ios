@@ -14,8 +14,10 @@ Aucun des tests de démarrage suivants n'a encore été exécuté.
 6. La session Live est temporaire et privilégiée (sudo permis par Debian Live).
    Ne pas y stocker de secrets, ni exposer des services. Vérifier le comportement
    de connexion Live avant de distribuer l'image.
-7. Démarrer l'installateur depuis le menu de démarrage, vers un disque VIRTUEL vide.
-   Aucun preseed ne sélectionne ou n'efface de disque automatiquement.
+7. Installer vers un disque VIRTUEL vide, par les deux chemins : « Installer TI-LEX
+   Pro » depuis la session live (Calamares), puis l'installateur Debian depuis le
+   menu de démarrage. Aucun preseed ne sélectionne ni n'efface de disque
+   automatiquement ; Calamares montre un résumé avant d'écrire.
 8. Créer un utilisateur et un mot de passe, terminer puis retirer l'ISO et redémarrer.
 9. Vérifier le compte installé, sudo, absence du compte temporaire Live,
    absence d'autologin, LightDM et mises à jour apt.

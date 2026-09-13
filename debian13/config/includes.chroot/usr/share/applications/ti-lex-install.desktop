@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Installer TI-LEX Pro
+Comment=Installer le système sur un disque, depuis la session live
+Exec=pkexec /usr/bin/calamares
+TryExec=/usr/bin/calamares
+Icon=/usr/share/icons/TI-LEX/scalable/apps/ti-lex-system.svg
+Terminal=false
+Categories=System;
+StartupNotify=true

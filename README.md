@@ -61,6 +61,13 @@ affichée par le résumé de la construction.
 - Installation interactive : choix du disque et création du compte par l'utilisateur.
 - Aucun serveur SSH, mot de passe personnel ou clé API préinstallé.
 
+## Installer
+Session live → **Installer TI-LEX Pro** (bureau, menu Système, ou Paramètres TI-LEX) :
+assistant Calamares en français du Canada, clavier canadien, fuseau America/Montreal,
+choix du disque et résumé avant écriture. L'installateur Debian reste au menu de
+démarrage, en graphique et en texte. Voir [debian13/INSTALL.md](debian13/INSTALL.md).
+L'assistant n'a jamais été exécuté : aucune installation n'a encore été faite.
+
 ## Images
 Voir [debian13/BRANDING.md](debian13/BRANDING.md).
 Voir [debian13/TESTS.md](debian13/TESTS.md) avant toute installation réelle.
