@@ -7,8 +7,11 @@ import sys
 import threading
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, GLib
-from core import extract_archive, candidates, command_for
+from gi.repository import Gtk, GLib, GdkPixbuf
+from core import extract_archive, candidates, command_for, icon_file
+# crt.py vit dans le dossier parent, partagé par les fenêtres TI-LEX.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from crt import Tube
 
 class Launcher(Gtk.Window):
     def __init__(self, source):
@@ -23,6 +26,11 @@ class Launcher(Gtk.Window):
         self.paths = []
         self.alive = True
         self.connect("destroy", lambda *_: setattr(self, "alive", False))
+        # Allumage et extinction du tube : l'effet ne retarde que la fermeture.
+        self.tube = Tube(self)
+        self.closing = False
+        self.connect("map-event", self.power_on)
+        self.connect("delete-event", self.power_off)
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16, margin=24)
         self.add(box)
         title = Gtk.Label(label="Votre application, sans terminal", xalign=0)
@@ -33,7 +41,14 @@ class Launcher(Gtk.Window):
         self.status = Gtk.Label(label="Préparation…", xalign=0)
         self.status.set_line_wrap(True)
         box.pack_start(self.status, False, False, 0)
-        self.choice = Gtk.ComboBoxText()
+        self.store = Gtk.ListStore(GdkPixbuf.Pixbuf, str)
+        self.choice = Gtk.ComboBox(model=self.store)
+        image = Gtk.CellRendererPixbuf()
+        self.choice.pack_start(image, False)
+        self.choice.add_attribute(image, "pixbuf", 0)
+        text = Gtk.CellRendererText()
+        self.choice.pack_start(text, True)
+        self.choice.add_attribute(text, "text", 1)
         box.pack_start(self.choice, False, False, 0)
         notice = Gtk.Label(label="Exécutez uniquement une application dont vous connaissez la provenance. Elle aura accès aux fichiers de votre compte.", xalign=0)
         notice.set_line_wrap(True)
@@ -44,6 +59,18 @@ class Launcher(Gtk.Window):
         self.run_button.connect("clicked", self.launch)
         box.pack_start(self.run_button, False, False, 0)
         threading.Thread(target=self.prepare, daemon=True).start()
+
+    def power_on(self, *_):
+        self.tube.turn_on()
+        return False
+
+    def power_off(self, *_):
+        """Éteint d'abord, ferme ensuite. Le second passage laisse filer la fermeture."""
+        if self.closing:
+            return False
+        self.closing = True
+        self.tube.turn_off(self.destroy)
+        return True
 
     def prepare(self):
         try:
@@ -65,11 +92,22 @@ class Launcher(Gtk.Window):
         self.paths = paths
         self.status.set_text(message if paths else message + "\nAucun programme Linux compatible disponible.")
         for path in paths:
-            self.choice.append_text(str(path.relative_to(path.parents[0])) if len(paths) == 1 else str(path))
+            self.store.append([self.thumbnail(path),
+                               str(path.relative_to(path.parents[0])) if len(paths) == 1 else str(path)])
         if paths:
             self.choice.set_active(0)
             self.run_button.set_sensitive(True)
         return False
+
+    def thumbnail(self, path, size=24):
+        """Icône du type de fichier ; une ligne sans image reste lisible."""
+        icon = icon_file(path)
+        if icon is None:
+            return None
+        try:
+            return GdkPixbuf.Pixbuf.new_from_file_at_size(str(icon), size, size)
+        except GLib.Error:
+            return None
 
     def launch(self, *_):
         index = self.choice.get_active()

@@ -33,3 +33,31 @@ sous Xvfb et vérifie qu'il dessine ; il n'a jamais été vu sur un démarrage r
 Le verrouillage garde le comportement du verrouilleur de session :
 le fond LightDM ne garantit pas le thème de toutes les fenêtres de verrouillage.
 ISO et rendu final XFCE/LightDM non encore validés sur matériel.
+
+## Icônes de types de fichiers
+49 tuiles vectorielles sous /usr/share/icons/TI-LEX : 42 types de fichiers dans
+scalable/mimetypes, 7 outils TI-LEX dans scalable/apps. Chaque tuile est une page à
+coin corné, dégradé vertical, pictogramme blanc et bandeau portant le nom du type.
+Le thème déclare Inherits=Adwaita : toute icône non fournie garde celle du système,
+et aucune icône générique de dossier n'est remplacée. xsettings sélectionne TI-LEX.
+
+Elles sont générées par `python3 debian13/tools/make-icons.py` : modifier la table
+ICONS ou TOOLS, relancer, et les 49 fichiers sont réécrits. Les creux (engrenage,
+puce, disque) reçoivent la couleur de leur tuile, faute de masque fiable entre
+librsvg et GdkPixbuf. Les bandeaux utilisent textLength : le nom tient dans la
+largeur même si la police de rendu diffère de celle de génération.
+
+/usr/share/ti-lex/filetypes.json relie extension et icône. Le lanceur s'en sert pour
+la liste des programmes trouvés dans une archive, l'aperçu web pour ses exemples.
+
+## Allumage et extinction des fenêtres
+Les fenêtres TI-LEX s'ouvrent et se ferment comme un tube cathodique : ligne
+lumineuse qui s'ouvre, voile blanc qui s'efface, puis l'inverse à la fermeture.
+X11 et xfwm4 n'animent pas la géométrie des fenêtres, et une fenêtre GTK ne se
+redimensionne jamais sous la taille minimale de son contenu : l'effet est donc
+peint par la fenêtre, dans /usr/share/ti-lex/crt.py. Un gestionnaire de dessin
+comprime le contenu avant que GTK ne dessine les enfants, un second pose le voile.
+La fermeture est retardée du temps de l'extinction, puis suit son chemin habituel.
+L'aperçu web reproduit le même effet en CSS, et les deux respectent la préférence
+système de mouvement réduit.
+

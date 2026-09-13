@@ -2,6 +2,7 @@ import contextlib
 import importlib.util
 import importlib.machinery
 import io
+import json
 from pathlib import Path
 import subprocess
 import tempfile
@@ -122,3 +123,52 @@ class ToolsTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class IconTests(unittest.TestCase):
+    """Les 49 tuiles, leur table et le thème doivent rester cohérents entre eux."""
+
+    THEME = INC / "usr/share/icons/TI-LEX"
+    TABLE = INC / "usr/share/ti-lex/filetypes.json"
+
+    def setUp(self):
+        import json
+        self.data = json.loads(self.TABLE.read_text(encoding="utf-8"))
+
+    def test_every_extension_points_to_an_existing_icon(self):
+        names = {p.stem for p in (self.THEME / "scalable/mimetypes").glob("*.svg")}
+        self.assertIn(self.data["fallback"], names)
+        missing = {suffix: name for suffix, name in self.data["extensions"].items() if name not in names}
+        self.assertEqual({}, missing)
+
+    def test_extensions_are_lowercase_with_a_dot(self):
+        for suffix in self.data["extensions"]:
+            self.assertRegex(suffix, r"^\.[a-z0-9+]+$")
+
+    def test_every_icon_is_well_formed_and_carries_its_label(self):
+        icons = sorted((self.THEME / "scalable").rglob("*.svg"))
+        self.assertEqual(49, len(icons))
+        for icon in icons:
+            tree = ET.parse(icon)
+            self.assertEqual("{http://www.w3.org/2000/svg}svg", tree.getroot().tag)
+            texts = [e.text for e in tree.iter("{http://www.w3.org/2000/svg}text") if e.text]
+            self.assertTrue(texts, f"{icon.name} n'a pas de bandeau")
+
+    def test_icon_lookup_falls_back_and_survives_a_missing_table(self):
+        with tempfile.TemporaryDirectory() as folder:
+            table = Path(folder) / "filetypes.json"
+            icons = Path(folder) / "icons"
+            icons.mkdir()
+            (icons / "image-png.svg").write_text("<svg/>")
+            (icons / "text-plain.svg").write_text("<svg/>")
+            table.write_text(json.dumps({"mimetypes": str(icons), "fallback": "text-plain",
+                                         "extensions": {".png": "image-png"}}))
+            self.assertEqual("image-png.svg", archive_core.icon_file("A.PNG", table).name)
+            self.assertEqual("text-plain.svg", archive_core.icon_file("a.inconnu", table).name)
+            self.assertIsNone(archive_core.icon_file("a.png", Path(folder) / "absent.json"))
+
+    def test_theme_inherits_so_unknown_icons_keep_working(self):
+        index = (self.THEME / "index.theme").read_text(encoding="utf-8")
+        self.assertIn("Inherits=Adwaita", index)
+        self.assertIn("scalable/mimetypes", index)
+

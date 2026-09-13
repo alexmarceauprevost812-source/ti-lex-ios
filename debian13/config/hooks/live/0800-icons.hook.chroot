@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+# These paths are inside the live-build chroot, never on the user's host.
+theme=/usr/share/icons/TI-LEX
+
+test -f "$theme/index.theme"
+test -f /usr/share/ti-lex/filetypes.json
+count=$(find "$theme/scalable" -name '*.svg' | wc -l)
+test "$count" -ge 49
+
+# Le cache n'est qu'une accélération : GTK lit le thème sans lui, d'où le repli.
+gtk-update-icon-cache -q -f -t "$theme" || echo "Cache d'icônes non généré ; le thème reste utilisable."

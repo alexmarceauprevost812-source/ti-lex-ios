@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """TI-LEX GTK 3 control center. Run as the desktop user, never sudo."""
+from pathlib import Path
 import subprocess
+import sys
 import threading
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
 from backend import TOOLS, available, wifi_state, bluetooth_state
+# crt.py vit dans le dossier parent, partagé par les fenêtres TI-LEX.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from crt import Tube
 
 CSS = b"""
 window, .root { background-color: #08080b; color: #ffffff; }
@@ -35,6 +40,11 @@ class Settings(Gtk.Window):
         self.alive = True
         self.busy = False
         self.connect("destroy", self.close)
+        # Allumage et extinction du tube : l'effet ne retarde que la fermeture.
+        self.tube = Tube(self)
+        self.closing = False
+        self.connect("map-event", self.power_on)
+        self.connect("delete-event", self.power_off)
         header = Gtk.HeaderBar(title="TI-LEX Pro")
         header.set_show_close_button(True)
         self.set_titlebar(header)
@@ -94,6 +104,18 @@ class Settings(Gtk.Window):
         body.pack_start(note, False, False, 0)
         self.timer = GLib.timeout_add_seconds(10, self.refresh)
         self.refresh()
+
+    def power_on(self, *_):
+        self.tube.turn_on()
+        return False
+
+    def power_off(self, *_):
+        """Éteint d'abord, ferme ensuite. Le second passage laisse filer la fermeture."""
+        if self.closing:
+            return False
+        self.closing = True
+        self.tube.turn_off(self.destroy)
+        return True
 
     def close(self, *_):
         self.alive = False

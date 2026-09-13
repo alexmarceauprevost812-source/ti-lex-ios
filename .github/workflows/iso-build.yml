@@ -12,6 +12,12 @@ on:
       - "debian13/**"
       - ".github/workflows/iso-build.yml"
 
+# Une seule construction par branche : relancer annule la précédente plutôt que de
+# faire tourner deux images de plusieurs gigaoctets en parallèle.
+concurrency:
+  group: iso-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

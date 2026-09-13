@@ -55,6 +55,8 @@ pas intégrés.
 
 ## Bureau, terminal et ouverture simplifiée
 - Deux fonds PNG bureau/connexion, six icônes SVG et la mascotte CRT sont intégrés.
+- 49 icônes vectorielles de types de fichiers, thème TI-LEX héritant d'Adwaita.
+- Fenêtres TI-LEX qui s'allument et s'éteignent comme un tube cathodique.
 - Terminal TI-LEX basé sur XFCE Terminal/Bash, palette dédiée et commande `tilex aide`.
 - Paramètres enrichis : terminal, Python, éditeur, fichiers, archives, sauvegardes et diagnostic.
 - Clic droit Thunar → Ouvrir avec TI-LEX pour ZIP, AppImage, .sh, .py et .deb compatibles.
