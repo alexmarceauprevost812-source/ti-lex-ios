@@ -58,7 +58,8 @@ pas intégrés.
 - 49 icônes vectorielles de types de fichiers, thème TI-LEX héritant d'Adwaita.
 - Fenêtres TI-LEX qui s'allument et s'éteignent comme un tube cathodique.
 - Terminal TI-LEX basé sur XFCE Terminal/Bash, palette dédiée et commande `tilex aide`.
-- Paramètres enrichis : terminal, Python, éditeur, fichiers, archives, sauvegardes et diagnostic.
+- 44 réglages dans un seul panneau : réseau, écrans, son, imprimantes, disques,
+  pare-feu, paquets APT, mises à jour, capteurs, matériel, clés et outils TI-LEX.
 - Clic droit Thunar → Ouvrir avec TI-LEX pour ZIP, AppImage, .sh, .py et .deb compatibles.
 - Aucun exécutable téléchargé ne démarre automatiquement.
 - [Guide du terminal](debian13/TERMINAL.md), [guide du lanceur](debian13/OPEN-APPS.md).

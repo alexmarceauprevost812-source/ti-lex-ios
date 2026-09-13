@@ -13,3 +13,9 @@ gnome-sound-recorder
 system-config-printer
 simple-scan
 cups
+xfce4-notifyd
+synaptic
+seahorse
+catfish
+lm-sensors
+inxi
