@@ -1,0 +1,4 @@
+NAME="TI-LEX Pro"
+VERSION="0.2-dev"
+BASE="Debian 13 trixie"
+STATUS="UNTESTED"
